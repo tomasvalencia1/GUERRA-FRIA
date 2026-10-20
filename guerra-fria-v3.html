@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1f3366">
+<title>Guerra Fría: La Gran Misión</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Special+Elite&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f3eee3;--bg2:#e9e0cd;--card:#fffdf8;--ink:#1f1b16;--mut:#6d6457;--line:#e3d9c5;--line2:#cbbd9f;--pri:#2f4a8a;--pri2:#1f3366;--on:#fff;--red:#c0392b;--blue:#2f5fb8;--acc:#e0a526;--acc2:#b98512;--ok:#2e7d4f;--okbg:#e2f2e7;--bad:#c0392b;--badbg:#f9e3df;--st1:#0e1830;--st2:#22386e;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0c1120;--bg2:#141d35;--card:#151d31;--ink:#ece6da;--mut:#9ba3b9;--line:#253050;--line2:#34426a;--pri:#7b98e8;--pri2:#4f6dc4;--on:#0b1020;--red:#ff6f61;--blue:#6f9bff;--acc:#f2b84b;--acc2:#c98f1a;--ok:#5fd394;--okbg:#14301f;--bad:#ff7a6b;--badbg:#3a1d1c;--st1:#070c1a;--st2:#17264d;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0c1120;--bg2:#141d35;--card:#151d31;--ink:#ece6da;--mut:#9ba3b9;--line:#253050;--line2:#34426a;--pri:#7b98e8;--pri2:#4f6dc4;--on:#0b1020;--red:#ff6f61;--blue:#6f9bff;--acc:#f2b84b;--acc2:#c98f1a;--ok:#5fd394;--okbg:#14301f;--bad:#ff7a6b;--badbg:#3a1d1c;--st1:#070c1a;--st2:#17264d;color-scheme:dark}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;min-height:100vh;background:radial-gradient(900px 500px at 50% -120px,var(--bg2),transparent 70%),var(--bg);background-attachment:fixed;color:var(--ink);font-family:"Nunito",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:16px;line-height:1.5;-webkit-tap-highlight-color:transparent}
+#app{max-width:640px;margin:0 auto;padding:max(10px,env(safe-area-inset-top)) 16px calc(32px + env(safe-area-inset-bottom))}
+:where(#app)>*{animation:in .35s ease-out both}
+@keyframes in{from{opacity:0;transform:translateY(8px)}}
+button{font:inherit;color:inherit;cursor:pointer;-webkit-user-select:none;user-select:none}
+button:disabled{cursor:default}
+:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+h1{font-size:2rem;line-height:1.1;margin:.15em 0;font-weight:900;letter-spacing:-.01em}
+.q{font-size:1.15rem;line-height:1.35;margin:.7em 0 .4em;font-weight:800}
+.mut{color:var(--mut);font-size:.92rem}
+.c{text-align:center}.w100{width:100%}
+.kicker{font-family:"Special Elite","Courier New",monospace;text-transform:uppercase;letter-spacing:.12em;font-size:.76rem;color:var(--mut)}
+.kicker.light{color:rgba(255,255,255,.72)}
+.stamp{display:inline-block;font-family:"Special Elite","Courier New",monospace;text-transform:uppercase;letter-spacing:.08em;color:var(--red);border:3px double var(--red);border-radius:6px;padding:3px 10px;transform:rotate(-7deg);opacity:.92;font-size:.95rem;white-space:nowrap}
+.stamp.sm{font-size:.66rem;padding:1px 7px;border-width:2px;float:right;margin:0 0 6px 8px}
+.stamp.big{font-size:1.3rem;padding:6px 16px}
+.stamp.in{animation:stamp .45s cubic-bezier(.2,1.6,.4,1) both}
+@keyframes stamp{from{transform:rotate(-7deg) scale(2.4);opacity:0}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;margin:14px 0;box-shadow:0 1px 0 var(--line2),0 10px 24px -20px rgba(0,0,0,.4)}
+.chip{display:inline-flex;align-items:center;gap:4px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:5px 11px;font-weight:800;font-size:.88rem;white-space:nowrap}
+.bar{height:10px;background:var(--line);border-radius:9px;overflow:hidden;margin-top:8px}.bar i{display:block;height:100%;background:var(--acc);border-radius:9px;transition:width .6s}
+/* botones */
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:52px;padding:12px 16px;margin:10px 0;border:0;border-radius:14px;background:var(--pri);color:var(--on);font-weight:800;font-size:1rem;box-shadow:0 3px 0 var(--pri2);transition:transform .08s,box-shadow .08s,opacity .15s}
+.btn:active:not(:disabled){transform:translateY(2px);box-shadow:0 1px 0 var(--pri2)}
+.btn:disabled{opacity:.5}
+.btn.acc{background:var(--acc);color:#1f1b16;box-shadow:0 3px 0 var(--acc2)}
+.btn.red{background:var(--red);box-shadow:0 3px 0 color-mix(in srgb,var(--red),#000 32%)}
+.btn.blue{background:var(--blue);box-shadow:0 3px 0 color-mix(in srgb,var(--blue),#000 32%)}
+.btn.green{background:var(--ok);box-shadow:0 3px 0 color-mix(in srgb,var(--ok),#000 32%)}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line2);box-shadow:none}
+.btn.sq{width:52px;flex:none;margin:0;font-size:1.4rem;padding:0}
+.btn.big{min-height:60px;font-size:1.1rem}
+.opt{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:var(--card);border:2px solid var(--line);border-radius:14px;padding:11px 14px;margin:8px 0;min-height:54px;font-weight:700;transition:border-color .15s,background .15s,transform .08s}
+.opt:hover:not(:disabled){border-color:var(--line2)}
+.opt:active:not(:disabled){transform:scale(.99)}
+.opt .lt{flex:none;width:28px;height:28px;border-radius:8px;background:var(--line);display:grid;place-items:center;font-weight:900;font-size:.85rem}
+.opt.ok{border-color:var(--ok);background:var(--okbg)}.opt.ok .lt{background:var(--ok);color:var(--on)}
+.opt.no{border-color:var(--bad);background:var(--badbg)}.opt.no .lt{background:var(--bad);color:var(--on)}
+.opt:disabled:not(.ok):not(.no){opacity:.55}
+.sh{animation:sk .32s!important}
+@keyframes sk{20%{transform:translateX(-7px)}40%{transform:translateX(7px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+.dossier{position:relative;background:var(--card);border:1px solid var(--line);border-left:5px solid var(--acc);border-radius:14px;padding:12px 14px;margin:12px 0;min-height:52px}
+.dossier p{margin:.2em 0}
+.dossier .btn{margin-bottom:2px}
+.dz-h{font-weight:900;font-size:1.1rem;margin-bottom:2px}
+/* barra superior */
+.top{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:10px;margin:0 -16px;padding:8px 16px;background:color-mix(in srgb,var(--bg) 88%,transparent);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+.g{flex:none;width:44px;height:44px;border-radius:12px;background:var(--card);border:1px solid var(--line);font-size:1.2rem;display:grid;place-items:center;padding:0}
+.tt{flex:1;min-width:0;line-height:1.2}.tt small{display:block;color:var(--mut);font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em}.tt b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.segs{display:flex;gap:5px;margin:4px 0 2px}.segs i{flex:1;height:7px;border-radius:9px;background:var(--line);transition:background .3s}.segs i.d{background:var(--pri)}.segs i.c{background:var(--acc)}
+/* agente */
+.say{display:flex;gap:10px;align-items:flex-start;margin:14px 0}
+.av{flex:none;width:54px;height:54px;border-radius:50%;display:block;box-shadow:0 0 0 3px var(--card),0 0 0 4px var(--line2),0 6px 14px -6px rgba(0,0,0,.5)}
+.av svg{display:block;width:100%;height:100%}
+.flag{display:inline-block;width:1.45em;height:1em;vertical-align:-.12em;border-radius:.14em;box-shadow:0 0 0 1px rgba(0,0,0,.18)}
+.av .head{animation:bob 3.2s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 100%}
+.av .mouth{transform-box:fill-box;transform-origin:50% 30%}
+.av.talk .mouth{animation:talk .16s ease-in-out infinite alternate}
+.av .shine{animation:shine 4s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-1px) rotate(-2deg)}}
+@keyframes talk{to{transform:scaleY(2.1)}}
+@keyframes shine{0%,70%{opacity:0;transform:translateX(-4px)}80%{opacity:.9}100%{opacity:0;transform:translateX(5px)}}
+.av.lg{width:110px;height:110px;margin:6px auto 0;box-shadow:0 0 0 4px var(--card),0 0 0 6px var(--line2),0 14px 30px -12px rgba(0,0,0,.55)}
+.bub{position:relative;flex:1;background:var(--card);border:1px solid var(--line);border-radius:4px 18px 18px 18px;padding:11px 48px 11px 14px}
+.bub p{margin:0;font-weight:600}
+.spk{position:absolute;top:7px;right:7px;width:34px;height:34px;border-radius:10px;border:0;background:var(--line);font-size:1rem;padding:0}
+.tw::after{content:"▍";opacity:.5}
+/* escenario */
+.stage{position:relative;overflow:hidden;background:radial-gradient(120% 90% at 50% 0%,var(--st2),var(--st1));border-radius:22px;min-height:170px;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:12px;padding:18px;color:#fff;box-shadow:inset 0 0 0 1px rgba(255,255,255,.08)}
+.stage::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);background-size:28px 28px;pointer-events:none}
+.stage>*{position:relative}
+.stage.sm{min-height:92px;padding:12px}
+.em{font-size:3.2rem;line-height:1}
+.pop{animation:pop .35s cubic-bezier(.2,1.6,.4,1)}
+@keyframes pop{from{transform:scale(.4);opacity:0}}
+/* puntos calientes */
+.hsw{display:flex;flex-wrap:wrap;justify-content:center;gap:12px}
+.hs{position:relative;width:84px;height:84px;border-radius:18px;background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.35);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:0;animation:pl 1.6s ease-in-out infinite}
+.hs span{font-size:2.1rem;line-height:1}
+.hs small{font-size:.66rem;font-weight:800;line-height:1.1;padding:0 4px}
+.hs.s{animation:none;background:rgba(95,211,148,.2);border-color:#5fd394}
+.hs.s::after{content:"✓";position:absolute;top:-8px;right:-8px;width:22px;height:22px;border-radius:50%;background:#5fd394;color:#0c1120;font-size:.8rem;font-weight:900;display:grid;place-items:center}
+.hs.on{box-shadow:0 0 0 3px var(--acc)}
+@keyframes pl{50%{transform:scale(1.07)}}
+.map{position:relative;width:100%;height:270px;border-radius:14px;overflow:hidden;background:linear-gradient(90deg,rgba(111,155,255,.17) 50%,rgba(255,111,97,.17) 50%)}
+.map::after{content:"";position:absolute;left:50%;top:0;bottom:0;border-left:2px dashed rgba(255,255,255,.35)}
+.map-w,.map-e{position:absolute;top:8px;font-family:"Special Elite",monospace;font-size:.66rem;text-transform:uppercase;letter-spacing:.1em;opacity:.8}
+.map-w{left:10px}.map-e{right:10px}
+.radar{position:absolute;inset:-60%;background:conic-gradient(from 0deg,rgba(120,255,170,.2),transparent 16%);animation:spin 5s linear infinite;pointer-events:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+.map .hs{position:absolute;width:58px;height:58px;border-radius:50%;transform:translate(-50%,-50%);animation:pm 1.6s ease-in-out infinite;z-index:1}
+.map .hs span{font-size:1.45rem}.map .hs small{font-size:.54rem}
+.map .hs.s{animation:none}
+@keyframes pm{50%{transform:translate(-50%,-50%) scale(1.1)}}
+/* línea de tiempo */
+.tl-stage{display:flex;align-items:center;gap:18px}
+.yr{font-size:3rem;font-weight:900;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.track{position:relative;margin-top:14px;padding-top:14px}
+.ticks{position:absolute;left:13px;right:13px;top:0;height:12px;pointer-events:none}
+.ticks i{position:absolute;top:0;width:0;height:0;border-left:7px solid transparent;border-right:7px solid transparent;border-top:10px solid var(--line2);transform:translateX(-50%);transition:border-color .3s}
+.ticks i.on{border-top-color:var(--acc)}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:44px;background:transparent;margin:0;touch-action:pan-y}
+input[type=range]::-webkit-slider-runnable-track{height:10px;border-radius:9px;background:var(--line)}
+input[type=range]::-moz-range-track{height:10px;border-radius:9px;background:var(--line)}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--pri);border:4px solid var(--card);box-shadow:0 1px 5px rgba(0,0,0,.35);margin-top:-9px}
+input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:var(--pri);border:4px solid var(--card);box-shadow:0 1px 5px rgba(0,0,0,.35)}
+.tl-lab{display:flex;justify-content:space-between;font-weight:800;font-size:.85rem}
+.log{list-style:none;padding:0;margin:12px 0 0;display:flex;flex-direction:column;gap:6px}
+.log li{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:7px 12px;font-size:.9rem;animation:in .3s}
+.log li b{color:var(--pri);margin-right:4px}
+/* muro */
+.wall{display:grid;grid-template-columns:repeat(8,1fr);gap:4px;width:100%;padding:6px;border-bottom:4px solid rgba(255,255,255,.4)}
+.wall b{height:26px;border-radius:4px;background:rgba(255,255,255,.07);border:1px dashed rgba(255,255,255,.18)}
+.wall b.on{background:#b4553a;border:0;box-shadow:inset 0 -3px 0 rgba(0,0,0,.25);animation:drop .25s cubic-bezier(.2,1.4,.4,1)}
+.wall b.fall{background:#b4553a;border:0;animation:fall .7s ease-in forwards}
+@keyframes drop{from{transform:translateY(-30px);opacity:0}}
+@keyframes fall{to{transform:translateY(90px) rotate(35deg);opacity:0}}
+.wire{height:12px;margin:0 6px 2px;background:repeating-linear-gradient(90deg,#cfd6e6 0 2px,transparent 2px 9px),linear-gradient(transparent 5px,#cfd6e6 5px 7px,transparent 7px);opacity:0;transition:opacity .4s}
+.wire.on{opacity:.85}
+.wall-lab{display:flex;justify-content:space-between;font-size:.82rem;margin-top:8px;opacity:.9}
+.crowd{text-align:center;font-size:1.6rem;min-height:2.3rem;margin-bottom:4px;letter-spacing:2px}
+/* crisis */
+.defcon{display:inline-block;font-family:"Special Elite",monospace;font-size:1rem;letter-spacing:.1em;padding:5px 14px;border-radius:10px;margin-bottom:16px;transition:background .3s,color .3s}
+.defcon b{font-size:1.4rem;margin-left:4px}
+.defcon.d1{background:#f2f2f2;color:#111;animation:alarm .5s infinite alternate}
+.defcon.d2{background:#d63a2f;color:#fff}.defcon.d3{background:#f2c230;color:#1f1b16}.defcon.d4{background:#2e9d5b;color:#fff}.defcon.d5{background:#2f6fd6;color:#fff}
+@keyframes alarm{to{background:#ff4d4d;color:#fff}}
+.mt{position:relative;width:100%;height:20px;border-radius:12px;background:linear-gradient(90deg,#3fbf73,#f2c230 50%,#e2453a)}
+.mt div{position:absolute;top:-11px;font-size:1.7rem;transform:translateX(-50%);transition:left .6s cubic-bezier(.2,1.3,.4,1)}
+.mt-lab{display:flex;justify-content:space-between;font-size:.75rem;margin-top:8px;opacity:.85;font-weight:700}
+/* tarjetas */
+.sw-wrap{display:flex;align-items:center;gap:8px;width:100%}
+.sw-side{flex:none;width:34px;text-align:center;font-size:.8rem;font-weight:800;opacity:.8;line-height:1.2}
+.cd{flex:1;background:var(--card);color:var(--ink);border:3px solid var(--line);border-radius:20px;padding:22px 14px;font-size:1.15rem;font-weight:800;text-align:center;min-height:110px;display:flex;align-items:center;justify-content:center;touch-action:pan-y;transition:transform .2s,border-color .15s;box-shadow:0 12px 26px -12px rgba(0,0,0,.6);cursor:grab}
+.cd.static{cursor:default}
+.cd.drag{transition:none;cursor:grabbing}
+.cd[data-tilt=l]{border-color:var(--blue)}.cd[data-tilt=r]{border-color:var(--red)}
+.cd.in{animation:cin .3s cubic-bezier(.2,1.4,.4,1)}
+@keyframes cin{from{transform:scale(.85);opacity:0}}
+.cd.outL{animation:outL .35s forwards}.cd.outR{animation:outR .35s forwards}
+@keyframes outL{to{transform:translateX(-130%) rotate(-18deg);opacity:0}}
+@keyframes outR{to{transform:translateX(130%) rotate(18deg);opacity:0}}
+.sw{display:flex;gap:10px}.sw .btn{margin:8px 0 2px}
+.sw-count{width:100%;text-align:center;font-size:.8rem;opacity:.75}
+.timer{height:8px;border-radius:9px;background:rgba(255,255,255,.15);overflow:hidden;margin-top:12px}.timer i{display:block;height:100%;width:100%;background:var(--acc)}
+/* cohete */
+.sky{position:relative;width:100%;height:170px;overflow:hidden;border-radius:14px}
+.stars{position:absolute;inset:0;background-image:radial-gradient(1.5px 1.5px at 20% 30%,#fff,transparent),radial-gradient(1px 1px at 70% 20%,#fff,transparent),radial-gradient(1.5px 1.5px at 40% 72%,#fff,transparent),radial-gradient(1px 1px at 86% 58%,#fff,transparent),radial-gradient(1px 1px at 10% 80%,#fff,transparent),radial-gradient(1.5px 1.5px at 58% 42%,#fff,transparent),radial-gradient(1px 1px at 30% 12%,#fff,transparent),radial-gradient(1.5px 1.5px at 92% 14%,#fff,transparent);opacity:.85}
+.rocket{position:absolute;left:50%;bottom:16px;font-size:3.2rem;line-height:1;transform:translateX(-50%) rotate(-45deg);transition:transform 1.8s cubic-bezier(.5,0,.8,.2)}
+.rocket.go{transform:translateX(-50%) translateY(-260px) rotate(-45deg)}
+.pad{position:absolute;left:0;right:0;bottom:0;height:14px;background:rgba(255,255,255,.14)}
+.cdn{position:absolute;top:10px;left:0;right:0;text-align:center;font-size:2.2rem;font-weight:900}
+.nl{position:relative;width:100%;height:22px;border-radius:11px;background:rgba(255,255,255,.15);overflow:hidden;margin-top:12px}
+.nl .z{position:absolute;left:38%;width:24%;height:100%;background:#3fbf73}
+.nl .p{position:absolute;top:0;width:6px;height:100%;background:#fff;transform:translateX(-50%);box-shadow:0 0 8px #fff}
+/* cifrado */
+.cipher{display:flex;flex-wrap:wrap;justify-content:center;gap:10px 14px;margin:12px 0 4px}
+.cipher .w{display:inline-flex;gap:3px}
+.cipher i{font-style:normal;width:24px;height:34px;display:grid;place-items:center;background:rgba(255,255,255,.1);border-radius:6px;font-family:"Special Elite","Courier New",monospace;font-size:1.25rem}
+.cipher.solved i{background:rgba(95,211,148,.32);animation:pop .3s both}
+.dial{display:flex;gap:10px;align-items:center}
+/* orden */
+.slots{list-style:none;margin:0;padding:0;width:100%;display:flex;flex-direction:column;gap:6px}
+.slot{display:flex;align-items:center;gap:10px;border:2px dashed rgba(255,255,255,.25);border-radius:12px;padding:5px 10px;min-height:38px;font-size:.92rem}
+.slot .sn{flex:none;width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,.15);display:grid;place-items:center;font-weight:900;font-size:.8rem}
+.slot .sv{opacity:.45}
+.slot.on{border-style:solid;border-color:#5fd394;background:rgba(95,211,148,.14);animation:pop .3s}
+.slot.on .sv{opacity:1}.slot.on .sn{background:#5fd394;color:#0c1120}
+/* parejas */
+.match{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.mcol{display:flex;flex-direction:column;gap:8px}
+.pr{flex:1;background:var(--card);border:2px solid var(--line);border-radius:12px;padding:10px;font-size:.88rem;font-weight:700;text-align:left;min-height:58px;line-height:1.3;transition:border-color .15s,background .15s,transform .1s,opacity .2s}
+.pr.sel{border-color:var(--acc);background:color-mix(in srgb,var(--acc) 18%,var(--card));transform:scale(1.02)}
+.pr.ok{border-color:var(--ok);background:var(--okbg);opacity:.7}
+.mprog{height:8px;border-radius:9px;background:rgba(255,255,255,.15);overflow:hidden;margin-top:12px;width:100%}.mprog i{display:block;height:100%;width:0;background:#5fd394;transition:width .4s}
+.nx{display:block;width:100%;margin-top:14px;min-height:56px;padding:14px;border-radius:14px;border:0;background:var(--line);color:var(--mut);font-weight:900;font-size:1.05rem}
+.nx.rdy{background:var(--acc);color:#1f1b16;box-shadow:0 3px 0 var(--acc2);animation:pl 1s ease-in-out 3}
+/* inicio */
+.hero{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-top:8px}
+.hero h1{font-size:2.2rem}
+.agent-row{display:flex;gap:14px;align-items:center}
+.badge{flex:none;width:58px;height:58px;border-radius:16px;background:var(--ink);display:grid;place-items:center;font-size:2rem}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
+.stats div{background:var(--bg);border-radius:12px;padding:8px 4px;text-align:center}
+.stats b{display:block;font-size:1.1rem;font-weight:900}.stats span{font-size:.74rem;color:var(--mut);font-weight:700}
+.medals{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.md{width:44px;height:44px;border-radius:12px;border:1px solid var(--line);background:var(--bg);font-size:1.35rem;display:grid;place-items:center;padding:0}
+.md.off{filter:grayscale(1);opacity:.35}
+.sec-h{display:flex;justify-content:space-between;align-items:baseline;margin:22px 0 2px}
+.sec-h h2{margin:0;font-size:1.2rem;font-weight:900}
+.path{position:relative;display:flex;flex-direction:column;gap:12px;margin:10px 0}
+.path::before{content:"";position:absolute;left:34px;top:24px;bottom:24px;width:4px;border-radius:4px;background:var(--line2)}
+.nd{position:relative;display:flex;gap:14px;align-items:center;width:100%;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:10px 14px 10px 10px;box-shadow:0 1px 0 var(--line2);transition:transform .1s}
+.nd:active:not(:disabled){transform:scale(.99)}
+.nd:disabled{opacity:.6}
+.nd .ic{flex:none;width:52px;height:52px;border-radius:50%;background:var(--bg2);border:3px solid var(--card);box-shadow:0 0 0 2px var(--line2);display:grid;place-items:center;font-size:1.55rem}
+.nd.dn .ic{background:var(--acc);box-shadow:0 0 0 2px var(--acc2)}
+.nd.nx1{border:2px solid var(--acc)}
+.nd.nx1 .ic{animation:pl 1.6s ease-in-out infinite;background:var(--pri);box-shadow:0 0 0 2px var(--pri2)}
+.nd-t{flex:1;min-width:0}.nd-t small{display:block;font-size:.7rem;color:var(--mut);font-weight:800;text-transform:uppercase;letter-spacing:.05em}.nd-t b{display:block;font-size:1.02rem;line-height:1.25}
+.nd .arr{flex:none;font-weight:900;color:var(--mut)}
+.ss{color:var(--acc2);letter-spacing:1px;font-weight:900}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}
+.tile{display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px;font-size:1.6rem;box-shadow:0 1px 0 var(--line2)}
+.tile b{font-size:1rem;line-height:1.2}.tile span{font-size:.8rem;color:var(--mut);font-weight:700;line-height:1.3}
+.tile:disabled{opacity:.55}
+.foot{display:flex;justify-content:center;flex-wrap:wrap;gap:4px;margin-top:18px}
+.lnk{background:none;border:0;color:var(--mut);font-size:.86rem;font-weight:700;padding:9px 11px;border-radius:10px}
+.lnk:hover{background:var(--line)}
+/* intro */
+.intro{padding-top:6vh}
+.folder{position:relative;background:var(--card);border:1px solid var(--line);border-radius:4px 22px 22px 22px;padding:30px 20px 22px;box-shadow:0 22px 44px -26px rgba(0,0,0,.5);text-align:center;margin-top:20px}
+.folder::before{content:"";position:absolute;top:-19px;left:-1px;width:130px;height:20px;background:var(--card);border:1px solid var(--line);border-bottom:0;border-radius:10px 10px 0 0}
+.folder .stamp{position:absolute;top:16px;right:14px}
+.big-ic{font-size:4rem;margin:8px 0 0;line-height:1.1}
+#brief{text-align:left;font-weight:600;min-height:7.5em;margin:14px 0}
+.lbl{display:block;text-align:left;font-weight:800;font-size:.85rem;margin-top:6px}
+.inp{width:100%;min-height:48px;margin-top:6px;padding:10px 14px;border-radius:12px;border:2px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;font-weight:700}
+.inp:focus{outline:none;border-color:var(--pri)}
+/* final de misión */
+.fin{text-align:center;padding-top:3vh}
+.medal-big{font-size:4.5rem;margin:14px 0 0;line-height:1.1;animation:pop .5s .2s both}
+.stars{font-size:2.6rem;letter-spacing:6px;margin:2px 0;line-height:1.2}
+.stars span{color:var(--line2);display:inline-block}
+.stars span.on{color:var(--acc);animation:pop .4s both}
+.learn{text-align:left;margin:8px 0 0;padding-left:1.2em}.learn li{margin:7px 0}
+.row3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center}
+.row3 b{display:block;font-size:1.05rem;line-height:1.25}.row3 span{font-size:.74rem;color:var(--mut);font-weight:700}
+.hl{border:2px solid var(--acc)}
+.score{text-align:left}
+.sc-row{display:flex;align-items:center;gap:16px;margin-top:8px}
+.grade{flex:none;width:84px;height:84px;border-radius:50%;display:grid;place-items:center;color:#fff;font-family:"Special Elite","Courier New",monospace;font-size:3rem;line-height:1;box-shadow:0 0 0 4px var(--card),0 0 0 6px var(--line2);animation:stamp .5s 1.4s cubic-bezier(.2,1.6,.4,1) both}
+.sc-n b{display:block;font-size:2.8rem;font-weight:900;line-height:1;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.sc-n span{color:var(--mut);font-weight:700;font-size:.9rem}
+.big-bar{height:14px;margin-top:16px}.big-bar i{transition:none}
+.sc-g{margin-top:8px;font-size:.95rem}
+.sr{display:flex;align-items:center;gap:12px;padding:10px 0;border-top:1px dashed var(--line)}
+.kicker+.sr{margin-top:8px}
+.sr-i{flex:none;width:36px;height:36px;border-radius:10px;background:var(--bg);display:grid;place-items:center;font-size:1.15rem}
+.sr-n{flex:1;min-width:0}.sr-n b{display:block;font-size:.95rem;line-height:1.25}.sr-n small{color:var(--mut);font-size:.8rem;font-weight:700}
+.sr-p{flex:none;font-weight:900;font-variant-numeric:tabular-nums;text-align:right}.sr-p small{color:var(--mut);font-weight:700}
+/* archivo */
+.cx summary{display:flex;justify-content:space-between;align-items:center;cursor:pointer;list-style:none;gap:8px}
+.cx summary::-webkit-details-marker{display:none}
+.cx-i{display:flex;gap:12px;padding:12px 0 2px;border-top:1px dashed var(--line);margin-top:10px}
+.cx-ic{flex:none;width:40px;height:40px;border-radius:10px;background:var(--bg);display:grid;place-items:center;font-size:1.3rem}
+.cx-i p{margin:2px 0 0;font-size:.92rem}
+.cx-i>div{flex:1}
+.rd{display:block;height:11px;border-radius:3px;background:var(--ink);opacity:.75;margin:6px 0}
+/* diploma */
+.cert{background:#fbf6ea;color:#2a241b;border-radius:10px;padding:10px;margin:14px 0;box-shadow:0 12px 30px -16px rgba(0,0,0,.55)}
+.cert-in{position:relative;border:3px double #8a6d3b;border-radius:6px;padding:30px 16px 22px;text-align:center}
+.cert .stamp{position:absolute;top:12px;right:10px;color:#b0362a;border-color:#b0362a;font-size:.75rem}
+.cert .kicker{color:#6d5a3a}
+.cert h2{font-family:"Special Elite",monospace;font-size:1.7rem;margin:.2em 0 .5em;letter-spacing:.04em}
+.cert p{margin:.3em 0}
+.cert-n{font-size:1.7rem;font-weight:900;border-bottom:2px solid #8a6d3b;display:inline-block;padding:0 12px 2px;margin:4px 0 10px;min-width:60%;word-break:break-word}
+.cert-r{font-size:1.25rem;font-weight:900;color:#2f4a8a;margin:6px 0 12px}
+.cert-f{display:flex;justify-content:center;flex-wrap:wrap;gap:6px 14px;font-weight:800;font-size:.9rem}
+.cert-d{margin-top:14px;font-family:"Special Elite",monospace;font-size:.85rem;color:#6d5a3a}
+/* efectos */
+#toasts{position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom));transform:translateX(-50%);display:flex;flex-direction:column;gap:8px;align-items:center;z-index:20;pointer-events:none;width:min(92vw,420px)}
+.toast{background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:14px;font-weight:800;font-size:.92rem;box-shadow:0 10px 30px -10px rgba(0,0,0,.5);animation:tin .35s cubic-bezier(.2,1.4,.4,1);text-align:center}
+.toast.big{background:var(--acc);color:#1f1b16}
+.toast.out{animation:tout .3s forwards}
+@keyframes tin{from{transform:translateY(20px);opacity:0}}@keyframes tout{to{transform:translateY(10px);opacity:0}}
+.fl{position:fixed;z-index:30;font-weight:900;font-size:1.05rem;color:var(--acc);text-shadow:0 1px 0 rgba(0,0,0,.3);pointer-events:none;transform:translate(-50%,-50%);animation:up 1s ease-out forwards}
+@keyframes up{to{transform:translate(-50%,calc(-50% - 60px));opacity:0}}
+.cf{position:fixed;top:-24px;z-index:25;pointer-events:none;animation:fa 2.6s linear forwards}
+@keyframes fa{to{transform:translateY(110vh) rotate(540deg)}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}}
+@media print{body{background:#fff}body *{visibility:hidden}#cert,#cert *{visibility:visible}#cert{position:absolute;left:0;top:0;width:100%;box-shadow:none}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="toasts" role="status" aria-live="polite"></div>
+<noscript><p style="padding:20px">Activa JavaScript para jugar.</p></noscript>
+<script>
+"use strict";
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const app=$("#app"),RM=matchMedia("(prefers-reduced-motion: reduce)").matches;
+const fresh=()=>({xp:0,done:{},st:{},er:{},tm:{},files:{},medals:{},fq:0,intro:0,snd:1,theme:"",dy:0,ld:"",exam:0,name:""});
+let S=fresh(),cur=null,TM=[];
+try{const raw=localStorage.getItem("gf3");if(raw)Object.assign(S,JSON.parse(raw));else{const o=JSON.parse(localStorage.getItem("gf2")||"null");if(o)Object.assign(S,{xp:o.xp||0,done:o.done||{},st:o.st||{},fq:o.fq||0,intro:o.intro||0,dy:o.dy||0,ld:o.ld||""})}}catch(e){}
+function save(){try{localStorage.setItem("gf3",JSON.stringify(S))}catch(e){}}
+if(S.theme)document.documentElement.dataset.theme=S.theme;
+const shuffle=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+const esc=t=>String(t).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+
+/* ============ CONTENIDO ============ */
+const M=[
+{id:1,ic:"🌍",n:"El mundo se parte en dos",y:"1945–1955",
+ learn:["Tras 1945 quedaron dos superpotencias: EE.UU. (capitalismo) y la URSS (comunismo).","Se llamó «fría» porque nunca se atacaron de frente: el miedo nuclear lo impedía.","El mundo se dividió en bloques: la OTAN (1949) y el Pacto de Varsovia (1955)."],
+ sc:[
+ {k:"hot",say:"Terminó la Segunda Guerra Mundial (1945). Solo quedaron dos gigantes. Toca cada uno para abrir su archivo.",h:[["🇺🇸","EE.UU.","Capitalismo: empresas privadas y libre mercado. Democracia con varios partidos."],["🇷🇺","URSS","Comunismo: el Estado controla la economía. Un solo partido, el Comunista."],["💣","El miedo","Ambos tenían bomba atómica. Si peleaban de frente, todos perdían. Por eso fue «fría»: sin choque directo."]]},
+ {k:"time",say:"Desliza la línea de tiempo y mira cómo el mundo se divide en bandos.",min:1945,max:1955,ev:[[1945,"🏳️","Termina la Segunda Guerra Mundial."],[1947,"📜","Doctrina Truman: EE.UU. promete apoyar a quien resista al comunismo."],[1949,"🛡️","Nace la OTAN: alianza militar de EE.UU. y países occidentales."],[1955,"⚔️","Nace el Pacto de Varsovia, la respuesta soviética. ¡Dos bandos listos!"]]},
+ {k:"swipe",say:"Misión de campo: arrastra cada tarjeta hacia su bando (o usa los botones).",i:[["Libre mercado",0,"Es la base del capitalismo.","la economía la mueven empresas privadas"],["Economía planificada por el Estado",1,"Modelo comunista soviético.","el Estado decide qué se produce"],["OTAN",0,"Alianza creada en 1949.","es la alianza de Occidente"],["Pacto de Varsovia",1,"Respuesta soviética a la OTAN (1955).","nació como respuesta a la OTAN"],["Partido único",1,"En la URSS solo existía el Partido Comunista.","no había varios partidos"],["Doctrina Truman",0,"EE.UU. apoyaba a países que resistían al comunismo.","Truman fue presidente de EE.UU."]]},
+ {k:"quiz",say:"Mini-reto: una sola pregunta. Sin presión, puedes reintentar.",p:"¿Por qué se llama «Guerra Fría»?",o:["Porque EE.UU. y la URSS nunca se atacaron directamente","Porque se peleó en el Polo Norte","Porque hacía mucho frío en Moscú"],c:0,hint:"Pista: las dos potencias tenían bombas atómicas…",e:"Se enfrentaban con espionaje, propaganda y guerras de terceros, no cara a cara."}]},
+{id:2,ic:"🧱",n:"Berlín y el Muro",y:"1948–1961",
+ learn:["Alemania y su capital, Berlín, quedaron divididas en zonas tras la guerra.","Con el puente aéreo (1948–49), los aliados salvaron a Berlín Occidental del bloqueo soviético.","En 1961 se levantó el Muro para impedir que la gente huyera al Oeste."],
+ sc:[
+ {k:"hot",say:"Alemania quedó repartida entre los vencedores. Berlín, dentro de la zona soviética, también. Explora.",h:[["🗺️","4 zonas","EE.UU., Reino Unido y Francia al oeste; la URSS al este. Berlín también se dividió en cuatro."],["✈️","Puente aéreo","1948: la URSS bloqueó Berlín Occidental. Los aliados la abastecieron por aire casi un año: comida, carbón y medicinas."],["🏃","La fuga","Millones de alemanes orientales huían al Oeste buscando libertad y mejores condiciones de vida."]]},
+ {k:"wall",say:"1961: el Este quiere frenar la fuga. Levanta el muro, ladrillo por ladrillo.",end:"El 13 de agosto de 1961 empezaron con alambre de púas en una sola noche; luego vino el concreto. Duró hasta 1989 y fue el símbolo de un mundo dividido."},
+ {k:"quiz",say:"Mini-reto:",p:"¿Para qué se construyó el Muro de Berlín?",o:["Para frenar la huida de alemanes orientales hacia el Oeste","Para frenar una invasión de la OTAN","Para dividir dos barrios en disputa"],c:0,hint:"Pista: ¿quién se estaba yendo, y hacia dónde?",e:"Era un muro para que la gente del Este no pudiera salir."}]},
+{id:7,ic:"🪖",n:"Corea y Vietnam",y:"1950–1975",
+ learn:["Las superpotencias pelearon «por poderes»: apoyando a bandos de otros países.","Corea quedó dividida tras la guerra (1950–53) y sigue así hasta hoy.","EE.UU. se retiró de Vietnam en 1973 y el país se unificó bajo el Norte comunista en 1975."],
+ sc:[
+ {k:"time",say:"Las potencias no chocaban de frente, pero sí hubo guerras reales. Desliza el tiempo.",min:1950,max:1975,ev:[[1950,"⚔️","Guerra de Corea: el Norte (apoyado por la URSS y China) ataca al Sur (apoyado por EE.UU. y la ONU)."],[1951,"🇨🇴","Llega a Corea el Batallón Colombia: el único país latinoamericano que envió tropas."],[1953,"🤝","Armisticio: Corea queda dividida cerca del paralelo 38."],[1965,"🪖","EE.UU. envía tropas de combate a Vietnam."],[1973,"🕊️","EE.UU. retira sus tropas de Vietnam."],[1975,"🏁","Cae Saigón: Vietnam queda unificado bajo el Norte comunista."]]},
+ {k:"swipe",say:"Misión de campo: ¿a qué bloque pertenecía o a quién apoyaba cada uno?",i:[["Corea del Sur",0,"Contaba con EE.UU. y la ONU.","Seúl era aliada de Occidente"],["Corea del Norte",1,"Apoyada por la URSS y China.","era el bando comunista"],["China (1950)",1,"Envió cientos de miles de soldados a ayudar a Corea del Norte.","era comunista desde 1949"],["Colombia",0,"Envió el Batallón Colombia a luchar junto a la ONU.","luchó al lado de EE.UU. y la ONU"],["Vietnam del Sur",0,"Recibió el respaldo de EE.UU.","Washington lo apoyó"],["Vietnam del Norte",1,"Apoyado por el bloque comunista.","era el bando comunista"]]},
+ {k:"quiz",say:"Mini-reto:",p:"¿Por qué se llaman «guerras por poderes»?",o:["Porque las superpotencias apoyaban a bandos locales sin chocar de frente","Porque se peleaban con poderes mágicos","Porque eran guerras directas EE.UU.–URSS"],c:0,hint:"Pista: ¿quién ponía los soldados y quién ponía el apoyo?",e:"Así las superpotencias se disputaban influencia sin una guerra directa entre ellas."}]},
+{id:3,ic:"🚀",n:"La carrera espacial",y:"1957–1975",
+ learn:["La URSS se adelantó con el Sputnik (1957), la perrita Laika y Yuri Gagarin (1961).","EE.UU. respondió creando la NASA (1958) y llegó a la Luna en 1969.","En 1975 las dos potencias cooperaron por primera vez en el espacio (Apolo-Soyuz)."],
+ sc:[
+ {k:"hot",say:"Como no podían pelear de frente, compitieron en todo: armas… y el espacio. Toca los hitos.",h:[["🛰️","Sputnik","1957: la URSS lanza el primer satélite artificial. EE.UU. se asusta: ¡iban adelante!"],["🐕","Laika","1957: esta perrita soviética fue el primer ser vivo en orbitar la Tierra."],["🏛️","NASA","1958: EE.UU. crea su agencia espacial para alcanzar a los soviéticos."],["🌕","Apolo 11","1969: Neil Armstrong y Buzz Aldrin caminan sobre la Luna."]]},
+ {k:"launch",say:"Diriges el lanzamiento del Sputnik. ¡Necesita la potencia justa!",end:"¡Despegue! El Sputnik 1 salió el 4 de octubre de 1957. Su «bip-bip» por radio se escuchó en todo el mundo y estremeció a EE.UU."},
+ {k:"time",say:"Desliza y mira cómo cada logro obligaba al otro a responder.",min:1957,max:1975,ev:[[1957,"🛰️","Sputnik: la URSS arranca ganando."],[1961,"👨‍🚀","Yuri Gagarin, primer humano en el espacio. Kennedy promete llegar a la Luna."],[1963,"👩‍🚀","Valentina Tereshkova, soviética, primera mujer en el espacio."],[1969,"🌕","Apolo 11: EE.UU. llega a la Luna."],[1975,"🤝","Misión Apolo-Soyuz: ¡por primera vez cooperan en el espacio!"]]},
+ {k:"quiz",say:"Mini-reto:",p:"Cuando la URSS lanzó el Sputnik, EE.UU. reaccionó…",o:["Acelerando su programa espacial","Ignorándolo","Cancelando sus cohetes"],c:0,hint:"Pista: ¡era una competencia!",e:"En 1958 nació la NASA y la meta pasó a ser la Luna."}]},
+{id:4,ic:"☢️",n:"Cuba y la crisis de los misiles",y:"1959–1962",
+ learn:["En 1959 triunfó la Revolución cubana y Cuba se acercó a la URSS.","En 1962 la URSS instaló misiles en Cuba: el mundo estuvo 13 días al borde de una guerra nuclear.","La crisis se resolvió negociando, y luego se creó una línea directa Washington–Moscú."],
+ sc:[
+ {k:"time",say:"La Guerra Fría llegó al Caribe. Desliza para ver cómo se calentó Cuba.",min:1959,max:1962,ev:[[1959,"🇨🇺","Triunfa la Revolución cubana: Fidel Castro llega al poder."],[1960,"🤝","Cuba se acerca a la URSS: le vende azúcar y recibe petróleo."],[1961,"🏖️","Bahía de Cochinos: fracasa una invasión de exiliados cubanos apoyada por EE.UU."],[1962,"🚀","La URSS instala en secreto misiles nucleares en Cuba."]]},
+ {k:"hot",say:"Octubre de 1962. Tú eres el presidente de EE.UU. Revisa el informe secreto.",h:[["📸","Foto espía","Un avión U-2 fotografía rampas de misiles soviéticos en Cuba."],["📏","Muy cerca","Cuba está a unos 150 km de Florida. Los misiles llegarían en minutos."],["⚠️","Riesgo","Un error y podía empezar una guerra nuclear."]]},
+ {k:"def",say:"Decide con cabeza fría y vigila el nivel DEFCON.",steps:[{p:"¿Qué haces primero?",o:[["💥 Invadir Cuba ya",30,"Había tropas soviéticas allí: la tensión se dispara. Prueba otra opción.",0],["🚢 Bloqueo naval («cuarentena») y exigir la retirada",-10,"¡Eso se hizo! Firmeza sin disparar, y deja espacio para negociar.",1],["😴 No hacer nada",15,"Tolerar misiles tan cerca era inaceptable para EE.UU. Hay que actuar.",0]]},{p:"Jrushchov ofrece retirar los misiles si EE.UU. no invade Cuba. ¿Y ahora?",o:[["🤝 Aceptar (y retirar en secreto los misiles de EE.UU. en Turquía)",-30,"¡Así terminó! Ambos salvaron la cara y el mundo respiró.",1],["😤 Exigir rendición total",25,"Cierras la salida pacífica. Intenta de nuevo.",0]]}]},
+ {k:"quiz",say:"Mini-reto:",p:"¿Cómo se resolvió la crisis de los misiles?",o:["Negociando: la URSS retiró los misiles y EE.UU. prometió no invadir Cuba","Con una guerra nuclear","Con una invasión a Cuba"],c:0,hint:"Pista: nadie quería apretar el botón.",e:"En 1963 se creó una línea directa (el famoso «teléfono rojo») entre Washington y Moscú."}]},
+{id:6,ic:"🕵️",n:"Espías y propaganda",y:"1947–1991",
+ learn:["La disuasión nuclear (MAD) evitaba la guerra directa: nadie podía ganar.","La CIA (EE.UU.) y la KGB (URSS) espiaban y usaban códigos secretos.","Ambos bandos usaban propaganda para convencer al mundo de que eran los buenos."],
+ sc:[
+ {k:"hot",say:"La carrera no era solo de cohetes: también de bombas, espías y propaganda. Abre los archivos.",h:[["☢️","MAD","Destrucción mutua asegurada: si uno atacaba con armas nucleares, el otro respondía y ambos desaparecían. Ese miedo evitaba la guerra directa."],["🕵️","CIA vs KGB","Las agencias de espionaje de EE.UU. y la URSS. Robaban secretos, vigilaban y apoyaban bandos en otros países."],["🌉","Puente de espías","En el puente de Glienicke, en Berlín, se intercambiaban espías capturados. En 1962 cambiaron al piloto Powers por el espía soviético Abel."],["📻","Propaganda","Carteles, radio, cine y cómics: cada bando se mostraba como el héroe y al otro como el villano."]]},
+ {k:"cipher",say:"Interceptamos un mensaje cifrado. Gira el dial hasta descifrarlo, agente.",w:"REUNION EN BERLIN",sh:7,end:"¡Mensaje descifrado! Los espías usaban códigos así (y máquinas mucho más complejas) para comunicarse sin ser descubiertos."},
+ {k:"tf",say:"Detector de mentiras: ¿cada afirmación es verdad o es propaganda falsa?",q:[["EE.UU. y la URSS se enfrentaron cara a cara en una gran batalla.",0,"Falso: nunca lucharon directamente; por eso fue una guerra «fría».","Recuerda por qué se llama «fría»."],["En 1960 la URSS derribó un avión espía U-2 de EE.UU. y capturó a su piloto.",1,"Verdad: el piloto Francis Gary Powers fue capturado y luego intercambiado.","Los aviones U-2 tomaban fotos desde muy alto…"],["La CIA era la agencia de espionaje de la URSS.",0,"Falso: la CIA era de EE.UU.; la de la URSS era la KGB.","Una era de EE.UU. y la otra de la URSS."],["Ambos bandos usaban carteles, radio y películas para mostrarse como «los buenos».",1,"Verdad: eso es propaganda, y los dos bandos la usaron muchísimo.","Piensa en cómo cada bando quería convencer al mundo."],["La URSS probó la bomba más potente de la historia, la «Bomba del Zar», en 1961.",1,"Verdad: fue más de 3.000 veces más potente que la de Hiroshima.","Fue una demostración de fuerza…"],["La línea directa Washington–Moscú se creó para que los líderes jugaran ajedrez.",0,"Falso: se creó en 1963 para hablar rápido en una crisis y evitar una guerra por error.","Piensa en lo que pasó en la crisis de 1962."]]},
+ {k:"quiz",say:"Mini-reto:",p:"¿Qué evitaba que EE.UU. y la URSS se atacaran con armas nucleares?",o:["El miedo a una destrucción mutua (MAD)","Un tratado que prohibía todas las armas","Que no tenían misiles"],c:0,hint:"Pista: si uno disparaba, el otro también…",e:"Era la disuasión nuclear: nadie podía ganar."}]},
+{id:8,ic:"🌎",n:"América Latina y Colombia",y:"1948–1973",
+ learn:["La Carta de la OEA se firmó en Bogotá en 1948, los mismos días del Bogotazo.","Colombia fue el único país latinoamericano que envió tropas a la Guerra de Corea.","Tras la Revolución cubana, EE.UU. lanzó la Alianza para el Progreso para frenar el comunismo en la región."],
+ sc:[
+ {k:"hot",say:"La Guerra Fría también se vivió aquí. Abre los archivos de nuestra región.",h:[["🏛️","OEA, 1948","En abril de 1948 se firmó en Bogotá la Carta de la OEA, que reunió a los países de América. Esos mismos días ocurrió el Bogotazo, tras el asesinato de Jorge Eliécer Gaitán."],["🎖️","Batallón Colombia","Entre 1951 y 1954 más de 5.000 soldados colombianos sirvieron en Corea junto a la ONU, además de fragatas de la Armada."],["🤝","Alianza para el Progreso","En 1961 Kennedy creó un plan de ayuda para América Latina y visitó Bogotá. Por eso la localidad de Kennedy, en Bogotá, lleva su nombre."],["⛰️","Guerrillas","Inspiradas en la Revolución cubana y en ideas comunistas, en los años 60 surgieron guerrillas en varios países, como las FARC y el ELN en Colombia (1964)."],["🇨🇱","Chile, 1973","Un golpe militar derrocó al presidente socialista Salvador Allende. EE.UU. había apoyado a sus opositores."]]},
+ {k:"match",say:"Une cada concepto con su significado. Toca uno de cada columna.",p:[["OEA","Organización de países de América, creada en Bogotá en 1948"],["Batallón Colombia","Tropas colombianas en la Guerra de Corea"],["Alianza para el Progreso","Ayuda de EE.UU. para frenar el comunismo en la región"],["Revolución cubana","1959: Fidel Castro llega al poder"],["Bahía de Cochinos","Invasión fallida a Cuba apoyada por EE.UU. (1961)"]]},
+ {k:"quiz",say:"Mini-reto:",p:"¿Qué país latinoamericano envió tropas a la Guerra de Corea?",o:["Colombia","México","Brasil"],c:0,hint:"Pista: su batallón llevaba el nombre del país.",e:"El Batallón Colombia luchó en Corea entre 1951 y 1953."}]},
+{id:5,ic:"🏁",n:"El final de la Guerra Fría",y:"1985–1991",
+ learn:["Gorbachov intentó reformar la URSS con la glasnost (transparencia) y la perestroika (reestructuración).","El 9 de noviembre de 1989 cayó el Muro de Berlín y en 1990 Alemania se reunificó.","En 1991 se disolvió la URSS: terminó la Guerra Fría."],
+ sc:[
+ {k:"time",say:"En los 80 la URSS estaba agotada. Desliza para ver su final.",min:1985,max:1991,ev:[[1985,"🗣️","Gorbachov llega al poder y propone reformas."],[1986,"🔍","Glasnost = transparencia. Perestroika = reestructuración."],[1989,"🧱","Cae el Muro de Berlín. Europa del Este se libera del control soviético."],[1990,"🇩🇪","Alemania vuelve a ser un solo país."],[1991,"🏚️","Se disuelve la URSS. Termina la Guerra Fría."]]},
+ {k:"breakwall",say:"9 de noviembre de 1989: ¡se abre la frontera! Ayuda a los berlineses a derribar el muro.",end:"¡El Muro cayó! Menos de un año después, el 3 de octubre de 1990, Alemania volvió a unirse."},
+ {k:"hot",map:1,say:"Mapa táctico: la Guerra Fría fue mundial. Toca cada punto caliente.",h:[["🇺🇸","EE.UU.","Líder del bloque occidental.",18,32],["🇨🇺","Cuba","La revolución de 1959 la volvió pieza clave; en 1962 casi hubo guerra nuclear.",27,56],["🇨🇴","Colombia","Único país latinoamericano que envió tropas de combate a Corea (1951–53).",33,82],["🧱","Berlín","Justo en la frontera: el símbolo de la división de Europa.",50,30],["🇷🇺","URSS","Líder del bloque comunista.",72,30],["🇰🇷","Corea","1950–53: guerra «por poderes», con Colombia en el bando de la ONU.",88,48],["🇻🇳","Vietnam","Otra guerra por poderes: EE.UU. y el bloque comunista apoyaban a bandos opuestos.",78,76]]},
+ {k:"order",say:"🏆 JEFE FINAL: reconstruye la Guerra Fría en el orden correcto.",i:[["Bloqueo de Berlín",1948],["Sputnik",1957],["Revolución cubana",1959],["Se levanta el Muro de Berlín",1961],["Crisis de los misiles",1962],["Apolo 11 en la Luna",1969],["Cae el Muro de Berlín",1989]]},
+ {k:"quiz",say:"Último mini-reto:",p:"¿En qué año se disolvió la URSS?",o:["1991","1961","1975"],c:0,hint:"Pista: dos años después de la caída del Muro.",e:"En 1991 terminó la Guerra Fría."}]}
+];
+const EXTRA=[
+{p:"¿Qué alianza militar formaron EE.UU. y sus aliados occidentales en 1949?",o:["La OTAN","El Pacto de Varsovia","La OEA"],c:0,e:"La OTAN nació en 1949; el Pacto de Varsovia fue la respuesta soviética en 1955."},
+{p:"¿Quién fue el primer ser humano en viajar al espacio?",o:["Yuri Gagarin","Neil Armstrong","Laika"],c:0,e:"El soviético Yuri Gagarin, en 1961. Armstrong pisó la Luna en 1969 y Laika fue una perrita."},
+{p:"¿Qué fue el puente aéreo de Berlín (1948–49)?",o:["Aviones aliados llevando comida y carbón a Berlín Occidental","Un puente construido sobre el Muro","Una ruta secreta de espías"],c:0,e:"Durante casi un año los aliados abastecieron la ciudad por aire para romper el bloqueo soviético."},
+{p:"¿En qué ciudad se firmó la Carta de la OEA en 1948?",o:["Bogotá","Washington","La Habana"],c:0,e:"En Bogotá, durante la IX Conferencia Panamericana."},
+{p:"¿Qué significa «glasnost»?",o:["Transparencia","Reestructuración","Revolución"],c:0,e:"Glasnost = transparencia; perestroika = reestructuración. Fueron las reformas de Gorbachov."},
+{p:"¿En qué año cayó el Muro de Berlín?",o:["1989","1961","1975"],c:0,e:"El 9 de noviembre de 1989. Se había levantado en 1961."},
+{p:"¿Qué fue la invasión de Bahía de Cochinos (1961)?",o:["Un intento fallido, apoyado por EE.UU., de derrocar a Fidel Castro","Una invasión soviética a Florida","Un acuerdo de paz entre Cuba y EE.UU."],c:0,e:"Exiliados cubanos entrenados por la CIA desembarcaron en Cuba y fueron derrotados en pocos días."},
+{p:"¿Cuál era la agencia de espionaje de la URSS?",o:["La KGB","La CIA","La NASA"],c:0,e:"La KGB era soviética; la CIA, estadounidense; la NASA es la agencia espacial de EE.UU."},
+{p:"¿Quién dirigía la URSS cuando terminó la Guerra Fría?",o:["Mijaíl Gorbachov","Iósif Stalin","Nikita Jrushchov"],c:0,e:"Gorbachov llegó al poder en 1985 e impulsó reformas que acabaron con el fin de la URSS."},
+{p:"¿Qué país llegó primero a la Luna?",o:["Estados Unidos","La URSS","China"],c:0,e:"EE.UU., con el Apolo 11 en 1969. Neil Armstrong fue el primero en pisarla."},
+{p:"¿Cuánto duró la crisis de los misiles en Cuba?",o:["13 días","13 años","3 horas"],c:0,e:"Del 16 al 28 de octubre de 1962: trece días de máxima tensión."},
+{p:"¿Qué plan de ayuda lanzó Kennedy para América Latina en 1961?",o:["La Alianza para el Progreso","El Plan Marshall","La Doctrina Monroe"],c:0,e:"La Alianza para el Progreso buscaba frenar la influencia comunista tras la Revolución cubana."}
+];
+const FILES=[];
+M.forEach(m=>m.sc.forEach((s,j)=>{
+ if(s.k==="hot")s.h.forEach((h,i)=>FILES.push({m,key:m.id+"-"+j+"-"+i,ic:h[0],t:h[1],x:h[2]}));
+ if(s.k==="time")s.ev.forEach((e,i)=>FILES.push({m,key:m.id+"-"+j+"-"+i,ic:e[1],t:String(e[0]),x:e[2]}));
+}));
+const RANKS=[[0,"Recluta","🪖"],[60,"Cadete","🎒"],[150,"Agente","🕶️"],[260,"Agente Especial","🕵️"],[380,"Analista Senior","📡"],[480,"Director de Inteligencia","🕴️"]];
+const lvl=()=>Math.floor(S.xp/40)+1;
+function rank(){let k=0;RANKS.forEach((r,i)=>{if(S.xp>=r[0])k=i});const r=RANKS[k];return{n:r[1],i:r[2],next:RANKS[k+1]?RANKS[k+1][0]:null}}
+const nFiles=()=>FILES.filter(f=>S.files[f.key]).length;
+const nDone=()=>M.filter(m=>S.done[m.id]).length;
+const allDone=()=>nDone()===M.length;
+const totalStars=()=>M.reduce((a,m)=>a+(S.st[m.id]||0),0);
+const MEDALS=[
+ ["📂","Primer archivo","Desclasifica tu primer archivo",()=>nFiles()>=1],
+ ["🔎","Explorador","Desclasifica 20 archivos",()=>nFiles()>=20],
+ ["🗄️","Archivista","Desclasifica TODOS los archivos",()=>nFiles()>=FILES.length],
+ ["💡","Mente fría","Acierta 3 mini-retos al primer intento",()=>S.fq>=3],
+ ["🎯","Misión perfecta","Termina una misión con 3 estrellas",()=>Object.values(S.st).some(v=>v>=3)],
+ ["🔥","Constancia","Juega 3 días seguidos",()=>S.dy>=3],
+ ["🏆","Maestro de la Guerra Fría","Completa todas las misiones",()=>allDone()],
+ ["🎖️","Director","Saca 8/10 o más en el examen final",()=>S.exam>=8]];
+
+/* ============ UTILIDADES ============ */
+const every=(f,ms)=>{const h=setInterval(f,ms);TM.push(h);return h};
+const later=(f,ms)=>{const h=setTimeout(f,ms);TM.push(h);return h};
+function stopTimers(){TM.forEach(h=>{clearInterval(h);clearTimeout(h)});TM=[]}
+let AC,PX=innerWidth/2,PY=innerHeight/2;
+function tone(f,d=.1,type="sine",v=.05,when=0,f2){if(!S.snd)return;try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();if(AC.state==="suspended")AC.resume();const t=AC.currentTime+when,o=AC.createOscillator(),g=AC.createGain();o.type=type;o.frequency.setValueAtTime(f,t);if(f2)o.frequency.exponentialRampToValueAtTime(f2,t+d);g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(g);g.connect(AC.destination);o.start(t);o.stop(t+d+.02)}catch(e){}}
+const SFX={tap:()=>tone(520,.05,"triangle",.025),ok:()=>{tone(660,.1,"triangle");tone(990,.18,"triangle",.05,.09)},bad:()=>tone(170,.22,"sawtooth",.03),win:()=>[523,659,784,1047].forEach((f,i)=>tone(f,.2,"triangle",.05,i*.11)),stamp:()=>tone(110,.1,"square",.04),brick:()=>tone(180+Math.random()*80,.07,"square",.03),beep:()=>tone(880,.08,"square",.03),launch:()=>tone(70,1.5,"sawtooth",.05,0,700)};
+function toast(t,big){const w=$("#toasts"),d=document.createElement("div");d.className="toast"+(big?" big":"");d.textContent=t;w.appendChild(d);while(w.children.length>3)w.firstChild.remove();setTimeout(()=>{d.classList.add("out");setTimeout(()=>d.remove(),300)},2800)}
+function float(t,x,y){const f=document.createElement("div");f.className="fl";f.textContent=t;f.style.left=Math.min(innerWidth-40,Math.max(40,x))+"px";f.style.top=Math.max(30,y)+"px";document.body.appendChild(f);setTimeout(()=>f.remove(),1000)}
+function conf(){if(RM)return;const C=["#c0392b","#2f5fb8","#e0a526","#2e7d4f"];for(let i=0;i<36;i++){const s=document.createElement("span");s.className="cf";if(i%4===0){s.textContent=["🎉","⭐","✨","🏅"][(i/4)%4|0];s.style.fontSize="1.4rem"}else s.style.cssText=`width:8px;height:13px;border-radius:2px;background:${C[i%4]}`;s.style.left=Math.random()*98+"vw";s.style.animationDelay=Math.random()*.7+"s";s.style.animationDuration=2+Math.random()*1.4+"s";document.body.appendChild(s);setTimeout(()=>s.remove(),4300)}}
+function shake(el){if(!el)return;el.classList.remove("sh");void el.offsetWidth;el.classList.add("sh");setTimeout(()=>el.classList.remove("sh"),350)}
+function gain(n,x=PX,y=PY){const r0=rank().n,l0=lvl();S.xp+=n;save();float("+"+n+" XP",x,y);const c=$("#xpc");if(c)c.textContent="⚡ "+S.xp;if(navigator.vibrate)navigator.vibrate(15);
+ if(rank().n!==r0)toast("🎖️ ¡Nuevo rango: "+rank().n+" "+rank().i+"!",1);else if(lvl()>l0)toast("⚡ ¡Subiste a nivel "+lvl()+"!");checkMedals()}
+function miss(){if(cur)cur.e++;SFX.bad();if(navigator.vibrate)navigator.vibrate(40)}
+function okFx(){SFX.ok()}
+function file(key){if(S.files[key])return false;S.files[key]=1;save();return true}
+function checkMedals(){MEDALS.forEach((m,i)=>{if(!S.medals[i]&&m[3]()){S.medals[i]=1;save();toast(m[0]+" Medalla desbloqueada: "+m[1],1)}})}
+function speak(t){if(!("speechSynthesis" in window))return toast("Tu navegador no puede leer en voz alta");const sy=speechSynthesis;if(sy.speaking){sy.cancel();return}
+ const u=new SpeechSynthesisUtterance(t.replace(/EE\.UU\./g,"Estados Unidos").replace(/[\u{1F000}-\u{1FFFF}\u{2600}-\u{27BF}\u{FE0F}\u{200D}]/gu,""));u.lang="es-ES";const v=sy.getVoices().find(v=>/^es/i.test(v.lang));if(v){u.voice=v;u.lang=v.lang}u.rate=.95;u.onstart=()=>talk(true);u.onend=u.onerror=()=>talk(false);sy.speak(u)}
+function hush(){try{speechSynthesis.cancel()}catch(e){}}
+function tw(el){const t=el.textContent;if(RM)return;const ch=[...t];let i=0,h;el.textContent="";el.classList.add("tw");talk(true);const done=()=>{clearInterval(h);el.textContent=t;el.classList.remove("tw");talk(false)};h=every(()=>{i+=2;el.textContent=ch.slice(0,i).join("");if(i>=ch.length)done()},18);el.onclick=done}
+const AV=`<svg viewBox="0 0 64 64" aria-hidden="true"><defs><clipPath id="avc"><circle cx="32" cy="32" r="32"/></clipPath><radialGradient id="avbg" cx="50%" cy="30%" r="75%"><stop offset="0" stop-color="#3a5aa8"/><stop offset="1" stop-color="#16244a"/></radialGradient></defs>
+<g clip-path="url(#avc)"><rect width="64" height="64" fill="url(#avbg)"/>
+<path d="M4 66C6 51 19 46 32 46s26 5 28 20Z" fill="#c9a26b"/><path d="M26.5 46 32 57l5.5-11Z" fill="#f4f1ea"/><path d="M30.6 48.5h2.8l1 7.2-2.4 2.6-2.4-2.6Z" fill="#c0392b"/>
+<path d="M32 47h-8.5l5 12.5 3.5-3Z" fill="#a9844f"/><path d="M32 47h8.5l-5 12.5-3.5-3Z" fill="#a9844f"/><circle cx="21" cy="55" r="1.1" fill="#7a5c33"/><circle cx="43" cy="55" r="1.1" fill="#7a5c33"/>
+<g class="head"><rect x="28" y="39" width="8" height="9" rx="2" fill="#e0a882"/><circle cx="19.2" cy="33" r="3" fill="#f0bf98"/><circle cx="44.8" cy="33" r="3" fill="#f0bf98"/>
+<ellipse cx="32" cy="32" rx="13" ry="14" fill="#f6cba4"/><circle cx="24.2" cy="38.2" r="2.2" fill="#ff8f8f" opacity=".45"/><circle cx="39.8" cy="38.2" r="2.2" fill="#ff8f8f" opacity=".45"/>
+<path class="mouth" d="M28.2 39.6Q32 43.6 35.8 39.6Q32 41.2 28.2 39.6Z" fill="#8a4b3a" stroke="#8a4b3a" stroke-width="1" stroke-linejoin="round"/>
+<path d="M19.6 30.4l2-.4M44.4 30.4l-2-.4" stroke="#111" stroke-width="1.4" stroke-linecap="round"/><rect x="21" y="27.6" width="9.6" height="7" rx="3.2" fill="#14161f"/><rect x="33.4" y="27.6" width="9.6" height="7" rx="3.2" fill="#14161f"/><path d="M30.4 30.2q1.6-1.2 3.2 0" stroke="#14161f" stroke-width="1.6" fill="none"/>
+<path class="shine" d="M23 29.4l3-0M35.4 29.4l3 0" stroke="#fff" stroke-width="1.3" stroke-linecap="round"/><path d="M22.6 32.6l1.6-1.6M35 32.6l1.6-1.6" stroke="#5b6aa0" stroke-width="1" stroke-linecap="round"/>
+<path d="M19.5 22.5C19 12.5 24 8.5 32 8.5s13 4 12.5 14Z" fill="#2a2f45"/><path d="M27.5 9.6Q32 13.6 36.5 9.6" stroke="#1a1e30" stroke-width="1.4" fill="none"/><rect x="19.6" y="18" width="24.8" height="4" fill="#c0392b"/><ellipse cx="32" cy="22.4" rx="19.5" ry="4" fill="#1f2335"/><path d="M14 22.4q18 3.6 36 0" stroke="#3a405c" stroke-width="1" fill="none"/></g></g></svg>`;
+/* Banderas dibujadas en SVG: Windows no muestra los emojis de bandera */
+const star=(x,y,r,c)=>`<path fill="${c}" d="M${[...Array(10)].map((_,i)=>{const a=-Math.PI/2+i*Math.PI/5,q=i%2?r*.42:r;return(x+q*Math.cos(a)).toFixed(2)+" "+(y+q*Math.sin(a)).toFixed(2)}).join("L")}Z"/>`;
+const fl=b=>`<svg class="flag" viewBox="0 0 30 20" preserveAspectRatio="none" aria-hidden="true">${b}</svg>`;
+const FLAG={
+ US:fl(`<rect width="30" height="20" fill="#fff"/>${[0,2,4,6,8,10,12].map(i=>`<rect y="${(i*20/13).toFixed(2)}" width="30" height="1.54" fill="#b22234"/>`).join("")}<rect width="13" height="10.77" fill="#3c3b6e"/>${[[2.5,2.5],[6.5,2.5],[10.5,2.5],[4.5,5.4],[8.5,5.4],[2.5,8.2],[6.5,8.2],[10.5,8.2]].map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r=".8" fill="#fff"/>`).join("")}`),
+ RU:fl(`<rect width="30" height="20" fill="#cc0000"/>${star(6.5,3.6,1.6,"#ffd700")}<path d="M4.4 8.2a3 3 0 1 0 4.4-2.4" stroke="#ffd700" stroke-width="1.1" fill="none"/><path d="M5 6.6l3.6 3.6" stroke="#ffd700" stroke-width="1.1"/>`),
+ CU:fl(`<rect width="30" height="20" fill="#002a8f"/><rect y="4" width="30" height="4" fill="#fff"/><rect y="12" width="30" height="4" fill="#fff"/><path d="M0 0L14 10L0 20Z" fill="#cf142b"/>${star(4.8,10,2.8,"#fff")}`),
+ CO:fl(`<rect width="30" height="20" fill="#ce1126"/><rect width="30" height="15" fill="#003893"/><rect width="30" height="10" fill="#fcd116"/>`),
+ KR:fl(`<rect width="30" height="20" fill="#fff"/><circle cx="15" cy="10" r="5" fill="#0047a0"/><path d="M10 10a5 5 0 0 1 10 0a2.5 2.5 0 0 1-5 0a2.5 2.5 0 0 0-5 0Z" fill="#cd2e3a"/><path d="M4 4.5l3 3M23 12.5l3 3M26 4.5l-3 3M7 12.5l-3 3" stroke="#000" stroke-width="1.4"/>`),
+ VN:fl(`<rect width="30" height="20" fill="#da251d"/>${star(15,10.4,6,"#ffcd00")}`),
+ DE:fl(`<rect width="30" height="20" fill="#ffce00"/><rect width="30" height="13.33" fill="#dd0000"/><rect width="30" height="6.67" fill="#000"/>`),
+ CL:fl(`<rect width="30" height="20" fill="#d52b1e"/><rect width="30" height="10" fill="#fff"/><rect width="10" height="10" fill="#0039a6"/>${star(5,5,3,"#fff")}`)};
+const FLAGRE=/[\u{1F1E6}-\u{1F1FF}]{2}/u;
+function flagify(root){if(root.nodeType===3){if(FLAGRE.test(root.data)&&root.parentNode)root=root.parentNode;else return}
+ const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT),ns=[];while(w.nextNode())if(FLAGRE.test(w.currentNode.data))ns.push(w.currentNode);
+ ns.forEach(n=>{const t=document.createElement("template");t.innerHTML=esc(n.data).replace(/[\u{1F1E6}-\u{1F1FF}]{2}/gu,m=>FLAG[[...m].map(c=>String.fromCharCode(c.codePointAt(0)-0x1F1E6+65)).join("")]||m);n.replaceWith(t.content)})}
+new MutationObserver(ms=>ms.forEach(m=>m.addedNodes.forEach(flagify))).observe(document.body,{childList:true,subtree:true});
+const talk=on=>$$(".av").forEach(a=>a.classList.toggle("talk",on));
+const stars=n=>`<span class="ss">${"★".repeat(n)}${"☆".repeat(3-n)}</span>`;
+
+/* ============ PANTALLAS ============ */
+function intro(){app.innerHTML=`<div class="intro"><div class="folder"><span class="stamp in">Top secret</span><div class="kicker">Expediente 1945–1991</div><span class="av lg" aria-hidden="true">${AV}</span><h1>Guerra Fría:<br>La Gran Misión</h1>
+ <p id="brief">Agente: el mundo quedó dividido en dos bloques que nunca se atacaron de frente, pero compitieron en todo. Tu misión es descubrir cómo pasó, archivo por archivo. Primero te lo explico y luego viene un reto cortito.</p>
+ <label class="lbl" for="nm">Tu nombre en clave (opcional)</label><input id="nm" class="inp" maxlength="40" placeholder="Agente X" value="${esc(S.name)}" autocomplete="off">
+ <button class="btn acc big" id="go">▶ Aceptar misión</button><p class="mut">${M.length} misiones · 10 tipos de mini-juego · archivo secreto · examen final</p></div></div>`;
+ tw($("#brief"));$("#go").onclick=()=>{S.name=$("#nm").value.trim();S.intro=1;save();home()}}
+
+function home(){stopTimers();hush();cur=null;if(!S.intro)return intro();
+ const d=nDone(),r=rank(),nextI=M.findIndex(m=>!S.done[m.id]);
+ app.innerHTML=`<header class="hero"><div><div class="kicker">Expediente N.º 1945–1991</div><h1>La Gran Misión</h1><div class="mut">Hola, agente${S.name?" <b>"+esc(S.name)+"</b>":""}. ${d===0?"Tu primera misión te espera.":allDone()?"¡Completaste todas las misiones!":"Sigue con la misión "+(nextI+1)+"."}</div></div><span class="stamp in">Top secret</span></header>
+ <section class="card"><div class="agent-row"><div class="badge">${r.i}</div><div style="flex:1;min-width:0"><b>${r.n}</b><div class="mut">Nivel ${lvl()} · ⚡ ${S.xp} XP${r.next?" · faltan "+(r.next-S.xp)+" para ascender":""}</div><div class="bar" title="Progreso de nivel"><i style="width:${S.xp%40/40*100}%"></i></div></div></div>
+ <div class="stats"><div><b>${d}/${M.length}</b><span>misiones</span></div><div><b>${nFiles()}/${FILES.length}</b><span>archivos</span></div><div><b>🔥 ${S.dy||1}</b><span>días seguidos</span></div></div>
+ <div class="medals">${MEDALS.map((m,i)=>`<button class="md ${S.medals[i]?"":"off"}" data-md="${i}" aria-label="${m[1]}: ${m[2]}" title="${m[1]}">${m[0]}</button>`).join("")}</div></section>
+ <div class="sec-h"><h2>Misiones</h2><span class="mut">⭐ ${totalStars()}/${M.length*3}</span></div>
+ <div class="path">${M.map((m,i)=>{const dn=!!S.done[m.id],lk=i>0&&!S.done[M[i-1].id]&&!dn,nx=i===nextI;
+  return `<button class="nd ${dn?"dn":""} ${nx?"nx1":""}" ${lk?"disabled":""} onclick="start(${i})"><span class="ic">${lk?"🔒":m.ic}</span><span class="nd-t"><small>Misión ${i+1} · ${m.y}</small><b>${m.n}</b><span class="mut">${dn?stars(S.st[m.id]||1)+" Completada":lk?"Completa la anterior":"▶ "+m.sc.length+" pasos"}</span></span><span class="arr">${lk?"":"›"}</span></button>`}).join("")}</div>
+ <div class="grid2"><button class="tile" onclick="codex()">📂<b>Archivo secreto</b><span>${nFiles()}/${FILES.length} desclasificados</span></button><button class="tile" ${allDone()?"":"disabled"} onclick="exam()">🎖️<b>Examen final</b><span>${allDone()?(S.exam?"Récord: "+S.exam+"/10":"¡Disponible!"):"Completa las "+M.length+" misiones"}</span></button></div>
+ ${allDone()?`<button class="btn acc" onclick="score()">📊 Mi puntaje final · ${N(calc().total)} pts</button><button class="btn ghost" onclick="diploma()">🎓 Mi diploma de agente</button>`:""}
+ <footer class="foot"><button class="lnk" onclick="tgTheme()">🌓 Tema</button><button class="lnk" onclick="tgSnd(this)">${S.snd?"🔊 Sonido":"🔇 Sin sonido"}</button><button class="lnk" onclick="resetAll()">↺ Reiniciar</button></footer>`;
+ $$(".md").forEach(b=>b.onclick=()=>{const i=+b.dataset.md,m=MEDALS[i];toast(m[0]+" "+m[1]+" — "+(S.medals[i]?"¡conseguida!":m[2]))})}
+
+function codex(){stopTimers();hush();cur=null;
+ app.innerHTML=`<div class="top"><button class="g" onclick="home()" aria-label="Volver al mapa">←</button><div class="tt"><small>Archivo secreto</small><b>${nFiles()}/${FILES.length} desclasificados</b></div></div>
+ <p class="mut">Cada archivo que abres en las misiones queda guardado aquí para que repases cuando quieras.</p>
+ ${M.map((m,mi)=>{const fs=FILES.filter(f=>f.m===m),k=fs.filter(f=>S.files[f.key]).length;
+  return `<details class="card cx" ${k?"open":""}><summary><span>${m.ic} <b>${mi+1}. ${m.n}</b></span><span class="chip">${k}/${fs.length}</span></summary>${fs.map(f=>S.files[f.key]?`<div class="cx-i"><span class="cx-ic">${f.ic}</span><div><b>${f.t}</b><p>${f.x}</p></div></div>`:`<div class="cx-i" aria-label="Archivo clasificado"><span class="cx-ic">🔒</span><div><span class="rd" style="width:35%"></span><span class="rd" style="width:90%"></span><span class="rd" style="width:65%"></span></div></div>`).join("")}</details>`}).join("")}`}
+
+function exam(){stopTimers();hush();cur=null;const pool=shuffle([...M.flatMap(m=>m.sc.filter(s=>s.k==="quiz")),...EXTRA]).slice(0,10);let i=0,sc=0;
+ const q=()=>{const s=pool[i],o=shuffle(s.o.map((t,j)=>({t,j})));
+  app.innerHTML=`<div class="top"><button class="g" onclick="home()" aria-label="Salir del examen">✕</button><div class="tt"><small>Examen final</small><b>Pregunta ${i+1} de ${pool.length}</b></div><span class="chip">✅ ${sc}</span></div>
+  <div class="segs">${pool.map((_,j)=>`<i class="${j<i?"d":j===i?"c":""}"></i>`).join("")}</div>
+  <div class="stage sm" style="margin-top:12px"><div class="em">🎖️</div><div class="kicker light">Un solo intento por pregunta</div></div>
+  <h3 class="q">${s.p}</h3>${o.map((x,k)=>`<button class="opt" data-j="${x.j}"><span class="lt">${"ABC"[k]}</span>${x.t}</button>`).join("")}<div class="dossier" id="bx" aria-live="polite"><p class="mut">Elige una respuesta (o usa las teclas 1, 2, 3).</p></div>`;
+  $$(".opt").forEach(b=>b.onclick=()=>{const right=+b.dataset.j===s.c;$$(".opt").forEach(x=>{x.disabled=true;if(+x.dataset.j===s.c)x.classList.add("ok")});
+   if(right){sc++;okFx()}else{b.classList.add("no");SFX.bad()}
+   $("#bx").innerHTML=`<p>${right?"✅ ¡Correcto!":"❌ La respuesta correcta está en verde."} ${s.e}</p><button class="btn acc" id="enx">${i<pool.length-1?"Siguiente ▶":"Ver resultado 🏁"}</button>`;
+   $("#enx").onclick=()=>{i++;i<pool.length?q():res()};$("#enx").focus({preventScroll:true});$("#enx").scrollIntoView({behavior:RM?"auto":"smooth",block:"nearest"})})};
+ const res=()=>{const prev=S.exam||0,pass=sc>=6;if(sc>prev)S.exam=sc;save();gain(Math.max(0,sc-prev)*4+3,innerWidth/2,innerHeight/3);
+  app.innerHTML=`<div class="fin"><span class="stamp big in">${pass?"Aprobado":"A repasar"}</span><div class="medal-big">${sc>=8?"🎖️":pass?"🏅":"📚"}</div><h1>${sc}/10</h1>
+  <p class="mut">${sc===10?"¡Perfecto! Eres una leyenda del espionaje histórico.":sc>=8?"¡Excelente! Nivel Director de Inteligencia.":pass?"¡Bien hecho! Repasa el archivo secreto para subir tu nota.":"Repasa el archivo secreto y vuelve a intentarlo. ¡Tú puedes!"}</p>
+  ${prev&&sc>prev?`<p><b>🆕 ¡Nuevo récord!</b> (antes: ${prev}/10)</p>`:""}
+  <div class="card row3"><div><b>${S.exam}/10</b><span>récord</span></div><div><b>${rank().i} ${rank().n}</b><span>rango</span></div><div><b>⚡ ${S.xp}</b><span>XP</span></div></div>
+  <button class="btn acc" onclick="score()">📊 Ver mi puntaje final</button><button class="btn ghost" onclick="exam()">↺ Otra ronda</button><button class="btn ghost" onclick="diploma()">🎓 Ver mi diploma</button><button class="btn ghost" onclick="codex()">📂 Repasar archivo</button><button class="btn ghost" onclick="home()">🗺️ Volver al mapa</button></div>`;
+  if(pass){SFX.win();conf()}};
+ q()}
+
+function diploma(){stopTimers();hush();cur=null;const r=rank();
+ app.innerHTML=`<div class="top"><button class="g" onclick="home()" aria-label="Volver al mapa">←</button><div class="tt"><small>Recompensa</small><b>Diploma de agente</b></div></div>
+ <div class="card"><label class="lbl" for="nm">Nombre que aparece en el diploma</label><input id="nm" class="inp" maxlength="40" value="${esc(S.name)}" placeholder="Escribe tu nombre" autocomplete="off"></div>
+ <div class="cert" id="cert"><div class="cert-in"><span class="stamp">Desclasificado</span><div class="kicker">Servicio de Inteligencia Histórica</div><h2>Diploma de Agente</h2><p>Se certifica que</p><div class="cert-n" id="cn">${esc(S.name)||"________"}</div><p>completó las ${M.length} misiones de <b>Guerra Fría: La Gran Misión</b> con el rango de</p><div class="cert-r">${r.i} ${r.n}</div><div class="cert-f"><span>🏆 ${N(calc().total)} pts</span><span>⚡ ${S.xp} XP</span><span>⭐ ${totalStars()}/${M.length*3}</span><span>📂 ${nFiles()}/${FILES.length}</span><span>🎖️ Examen: ${S.exam||"–"}/10</span></div><div class="cert-d">${new Date().toLocaleDateString("es-CO",{day:"numeric",month:"long",year:"numeric"})}</div></div></div>
+ <button class="btn acc" onclick="window.print()">🖨️ Imprimir o guardar PDF</button><button class="btn ghost" onclick="shr()">📤 Compartir mi rango</button>`;
+ $("#nm").oninput=e=>{S.name=e.target.value.slice(0,40);save();$("#cn").textContent=S.name||"________"}}
+
+function start(i){hush();cur={i,k:0,m:M[i],e:0,x0:S.xp,t0:Date.now()};go()}
+function go(){stopTimers();const s=cur.m.sc[cur.k];if(!s)return fin();const last=cur.k===cur.m.sc.length-1;
+ app.innerHTML=`<div class="top"><button class="g" onclick="home()" aria-label="Volver al mapa">🗺️</button><div class="tt"><small>Misión ${cur.i+1} · Paso ${cur.k+1} de ${cur.m.sc.length}</small><b>${cur.m.n}</b></div><span class="chip" id="xpc">⚡ ${S.xp}</span></div>
+ <div class="segs">${cur.m.sc.map((_,i)=>`<i class="${i<cur.k?"d":i===cur.k?"c":""}"></i>`).join("")}</div>
+ <div class="say"><span class="av" aria-hidden="true">${AV}</span><div class="bub"><p id="sayp">${s.say}</p><button class="spk" aria-label="Escuchar en voz alta" onclick="speak(cur.m.sc[cur.k].say)">🔊</button></div></div>
+ <div class="stage" id="st"></div><div id="ix"></div>
+ <button class="nx" id="nx" disabled onclick="nextStep()">${last?"🏁 Terminar misión":"Siguiente ▶"}</button>`;
+ tw($("#sayp"));K[s.k](s);window.scrollTo(0,0)}
+function nextStep(){hush();cur.k++;go()}
+function un(){const b=$("#nx");if(!b||!b.disabled)return;b.disabled=false;b.classList.add("rdy");later(()=>b.scrollIntoView({behavior:RM?"auto":"smooth",block:"nearest"}),300)}
+
+function fin(){stopTimers();const m=cur.m,e=cur.e,st=e===0?3:e<=2?2:1,wasAll=allDone();S.done[m.id]=1;S.st[m.id]=Math.max(S.st[m.id]||0,st);
+ const secs=Math.round((Date.now()-cur.t0)/1000);S.er[m.id]=S.er[m.id]==null?e:Math.min(S.er[m.id],e);S.tm[m.id]=S.tm[m.id]==null?secs:Math.min(S.tm[m.id],secs);save();gain(10,innerWidth/2,innerHeight/3);
+ const r=rank(),hasNext=cur.i<M.length-1;
+ if(!hasNext)return score(true);
+ app.innerHTML=`<div class="fin"><span class="stamp big in">Misión cumplida</span><div class="medal-big">${m.ic}</div><h1>${m.n}</h1>
+ <div class="stars" aria-label="${st} de 3 estrellas">${[0,1,2].map(j=>`<span class="${j<st?"on":""}" style="animation-delay:${.35+j*.25}s">★</span>`).join("")}</div>
+ <p class="mut">${st===3?"¡Perfecto, sin errores!":st===2?"¡Muy bien! Solo algunos tropiezos.":"¡Completada! Repítela para ganar más estrellas."}</p>
+ <div class="card" style="text-align:left"><div class="kicker">Lo que aprendiste</div><ul class="learn">${m.learn.map(x=>`<li>${x}</li>`).join("")}</ul></div>
+ <div class="card row3"><div><b>+${S.xp-cur.x0}</b><span>XP ganados</span></div><div><b>${r.i} ${r.n}</b><span>rango</span></div><div><b>${nFiles()}/${FILES.length}</b><span>archivos</span></div></div>
+ ${hasNext?`<button class="btn acc big" onclick="start(${cur.i+1})">Siguiente misión ▶</button>`:`<div class="card hl"><b>🎖️ ¡Examen final desbloqueado!</b><p class="mut" style="margin:.3em 0 0">Demuestra todo lo que sabes y gana tu diploma de agente.</p></div><button class="btn acc big" onclick="exam()">🎖️ Ir al examen final</button>`}
+ <button class="btn ghost" onclick="start(${cur.i})">↺ Repetir misión</button><button class="btn ghost" onclick="home()">🗺️ Volver al mapa</button></div>`;
+ SFX.win();conf();if(!wasAll&&allDone())later(()=>toast("🎖️ ¡Examen final y diploma desbloqueados!",1),900)}
+
+/* ============ PUNTAJE FINAL ============ */
+const N=n=>n.toLocaleString("es-CO");
+const fmtT=s=>s==null?"—":Math.floor(s/60)+":"+String(s%60).padStart(2,"0");
+function calc(){const rows=M.map((m,i)=>{const st=S.st[m.id]||0;return{m,i,st,pts:S.done[m.id]?100+st*50:0,er:S.er[m.id],tm:S.tm[m.id]}});
+ const nm=MEDALS.filter((_,i)=>S.medals[i]).length,parts=[["🗺️","Misiones","100 por misión + 50 por estrella",rows.reduce((a,r)=>a+r.pts,0),M.length*250],["📂","Archivos",nFiles()+" × 10",nFiles()*10,FILES.length*10],["🏅","Medallas",nm+" × 50",nm*50,MEDALS.length*50],["🎖️","Examen final",S.exam?S.exam+"/10 × 30":"pendiente",(S.exam||0)*30,300]];
+ const total=parts.reduce((a,p)=>a+p[3],0),max=parts.reduce((a,p)=>a+p[4],0),pct=Math.round(total/max*100);
+ const g=pct>=90?["S","Leyenda de la Guerra Fría","#d99a1e"]:pct>=75?["A","Agente de élite","#2e9d5b"]:pct>=55?["B","Buen agente","#2f6fd6"]:["C","Agente en entrenamiento","#8a6d3b"];
+ const tms=rows.filter(r=>r.tm!=null),ers=rows.filter(r=>r.er!=null);
+ return{rows,parts,total,max,pct,g,time:tms.length?tms.reduce((a,r)=>a+r.tm,0):null,errs:ers.length?ers.reduce((a,r)=>a+r.er,0):null}}
+function score(final){stopTimers();hush();cur=null;const c=calc();
+ app.innerHTML=`<div class="top"><button class="g" onclick="home()" aria-label="Volver al mapa">🗺️</button><div class="tt"><small>Reporte final del agente</small><b>${final?"¡Juego completado!":"Tu puntaje"}</b></div></div>
+ <div class="fin" style="padding-top:8px">${final?`<span class="stamp big in">Misión completa</span><h1 style="margin-top:12px">¡Lo lograste, agente${S.name?" "+esc(S.name):""}!</h1><p class="mut">Recorriste toda la Guerra Fría, de 1945 a 1991. Este es tu reporte.</p>`:""}
+ <div class="card score"><div class="kicker">Puntaje total</div><div class="sc-row"><div class="grade" style="background:${c.g[2]}">${c.g[0]}</div><div class="sc-n"><b id="tot">${N(c.total)}</b><span>de ${N(c.max)} puntos</span></div></div>
+ <div class="bar big-bar"><i id="pbar" style="width:${c.pct}%"></i></div><div class="sc-g"><b>${c.g[1]}</b> · ${c.pct}%</div></div>
+ <div class="card row3"><div><b>⭐ ${totalStars()}/${M.length*3}</b><span>estrellas</span></div><div><b>⏱️ ${fmtT(c.time)}</b><span>tiempo (mejores)</span></div><div><b>❌ ${c.errs==null?"—":c.errs}</b><span>errores</span></div></div>
+ <div class="card" style="text-align:left"><div class="kicker">De dónde salen tus puntos</div>${c.parts.map(p=>`<div class="sr"><span class="sr-i">${p[0]}</span><span class="sr-n"><b>${p[1]}</b><small>${p[2]}</small></span><span class="sr-p">${N(p[3])}<small>/${N(p[4])}</small></span></div>`).join("")}</div>
+ <div class="card" style="text-align:left"><div class="kicker">Misión por misión</div>${c.rows.map(r=>`<div class="sr"><span class="sr-i">${r.m.ic}</span><span class="sr-n"><b>${r.i+1}. ${r.m.n}</b><small>${S.done[r.m.id]?stars(r.st)+" · ⏱️ "+fmtT(r.tm)+" · ❌ "+(r.er==null?"—":r.er):"Sin completar"}</small></span><span class="sr-p">${r.pts}</span></div>`).join("")}</div>
+ ${!S.exam&&allDone()?`<div class="card hl" style="text-align:left"><b>🎖️ ¡Aún puedes sumar hasta 300 puntos!</b><p class="mut" style="margin:.3em 0 0">Haz el examen final para completar tu reporte.</p></div><button class="btn acc big" onclick="exam()">🎖️ Hacer el examen final</button>`:""}
+ ${allDone()?`<button class="btn ${S.exam?"acc":"ghost"}" onclick="diploma()">🎓 Ver mi diploma</button>`:""}
+ <button class="btn ghost" onclick="shr()">📤 Compartir mi puntaje</button>
+ <p class="mut">💡 Repite misiones para ganar más estrellas y subir tu puntaje.</p>
+ <button class="btn ghost" onclick="home()">🗺️ Volver al mapa</button></div>`;
+ if(final){SFX.win();conf()}
+ if(!RM){const el=$("#tot"),pb=$("#pbar"),t0=performance.now(),D=1600;const f=t=>{if(!el.isConnected)return;const k=Math.min(1,(t-t0)/D),e=1-Math.pow(1-k,3);el.textContent=N(Math.round(c.total*e));pb.style.width=c.pct*e+"%";if(k<1)requestAnimationFrame(f)};requestAnimationFrame(f)}}
+
+/* ============ MINI-JUEGOS ============ */
+const K={};
+const box=(t,cls="mut")=>`<div class="dossier" id="bx" aria-live="polite"><p class="${cls}">${t}</p></div>`;
+
+K.hot=s=>{let n=0;
+ $("#st").innerHTML=(s.map?`<div class="map"><span class="map-w">Bloque occidental</span><span class="map-e">Bloque comunista</span><div class="radar"></div>`:`<div class="hsw">`)+s.h.map((x,i)=>`<button class="hs" data-i="${i}" ${s.map?`style="left:${x[3]}%;top:${x[4]}%"`:""} aria-label="Abrir archivo: ${x[1]}"><span>${x[0]}</span><small>${x[1]}</small></button>`).join("")+"</div>";
+ $("#ix").innerHTML=box(`👆 Toca cada ${s.map?"punto del mapa":"icono"} para abrir su archivo. <b>0/${s.h.length}</b>`);
+ $$(".hs").forEach(b=>b.onclick=()=>{const i=+b.dataset.i,x=s.h[i];
+  if(!b.classList.contains("s")){b.classList.add("s");n++;SFX.stamp();if(file(cur.m.id+"-"+cur.k+"-"+i))gain(3)}
+  $$(".hs").forEach(o=>o.classList.toggle("on",o===b));
+  $("#bx").innerHTML=`<span class="stamp sm in">Desclasificado</span><div class="dz-h">${x[0]} ${x[1]}</div><p>${x[2]}</p><p class="mut">${n<s.h.length?"Archivos abiertos: "+n+"/"+s.h.length:"✅ ¡Todos los archivos revisados!"}</p>`;
+  if(n===s.h.length)un()})};
+
+K.time=s=>{const span=s.max-s.min,seen={};let lastE=null;
+ $("#st").innerHTML=`<div class="tl-stage"><div class="yr" id="yr">${s.min}</div><div class="em" id="em">⏳</div></div>`;
+ $("#ix").innerHTML=`${box("Desliza para viajar en el tiempo.")}<div class="track"><div class="ticks">${s.ev.map(e=>`<i style="left:${(e[0]-s.min)/span*100}%" data-y="${e[0]}"></i>`).join("")}</div><input type="range" id="rg" min="${s.min}" max="${s.max}" value="${s.min}" aria-label="Año"></div><div class="tl-lab"><span>${s.min}</span><span class="mut">⬅ desliza ➡</span><span>${s.max}</span></div><ol class="log" id="log" aria-label="Bitácora"></ol>`;
+ const rg=$("#rg");
+ rg.oninput=()=>{const v=+rg.value;$("#yr").textContent=v;let e=null;
+  s.ev.forEach((x,i)=>{if(x[0]<=v){e=x;if(!seen[i]){seen[i]=1;if(file(cur.m.id+"-"+cur.k+"-"+i))gain(3);$("#log").insertAdjacentHTML("beforeend",`<li><b>${x[0]}</b>${x[1]} ${x[2]}</li>`);const t=$(`.ticks i[data-y="${x[0]}"]`);if(t)t.classList.add("on")}}});
+  if(e&&e!==lastE){lastE=e;const em=$("#em");em.textContent=e[1];em.classList.remove("pop");void em.offsetWidth;em.classList.add("pop");$("#bx").innerHTML=`<div class="dz-h">${e[0]}</div><p>${e[2]}</p>`}
+  if(Object.keys(seen).length===s.ev.length)un()};
+ rg.oninput()};
+
+K.wall=s=>{const n=24,ord=[];let c=0;for(let r=2;r>=0;r--)for(let x=0;x<8;x++)ord.push(r*8+x);
+ $("#st").innerHTML=`<div class="w100"><div class="wire" id="wr"></div><div class="wall">${"<b></b>".repeat(n)}</div><div class="wall-lab"><span>🧱 Muro: <b id="wp">0%</b></span><span>Berlín, 1961</span></div></div>`;
+ $("#ix").innerHTML=`<button class="btn big" id="bt">🧱 Poner ladrillos</button>${box("Toca el botón varias veces…")}`;
+ const B=$$(".wall b");
+ $("#bt").onclick=()=>{for(let k=0;k<2&&c<n;k++){B[ord[c]].className="on";c++}SFX.brick();$("#wp").textContent=Math.round(c/n*100)+"%";
+  if(c===12)$("#bx").innerHTML=`<p>🌙 Todo empezó en una sola noche, con alambre de púas y soldados vigilando. Las familias quedaron separadas de un día para otro.</p>`;
+  if(c>=n){$("#bt").disabled=true;$("#wr").classList.add("on");$("#bx").innerHTML=`<p>${s.end}</p>`;gain(5);un()}}};
+
+K.breakwall=s=>{const n=24,left=shuffle([...Array(n).keys()]);let c=0;
+ $("#st").innerHTML=`<div class="w100"><div class="crowd" id="cw">🧍 🧍 🧍</div><div class="wall">${'<b class="on"></b>'.repeat(n)}</div><div class="wall-lab"><span>🔨 Derribado: <b id="wp">0%</b></span><span>Berlín, 1989</span></div></div>`;
+ $("#ix").innerHTML=`<button class="btn big red" id="bt">🔨 ¡Derribar!</button>${box("Esa noche miles de personas cruzaron la frontera. ¡Ayuda a derribar el muro!")}`;
+ const B=$$(".wall b");
+ $("#bt").onclick=()=>{for(let k=0;k<2&&left.length;k++){B[left.pop()].className="fall";c++}SFX.brick();$("#wp").textContent=Math.round(c/n*100)+"%";
+  if(c===12){$("#cw").textContent="🙌 🧍 🎉 🧍 🙌";$("#bx").innerHTML=`<p>🔨 Los berlineses subieron al muro con martillos y cinceles. ¡Las familias se reencontraban después de 28 años!</p>`}
+  if(c>=n){$("#bt").disabled=true;$("#cw").textContent="🎉 🙌 🥳 🙌 🎉";$("#bx").innerHTML=`<p>${s.end}</p>`;gain(8);conf();un()}}};
+
+K.def=s=>{let base=70,i=0;const cl=v=>Math.max(3,Math.min(97,v));
+ $("#st").innerHTML=`<div class="w100 c"><div class="defcon" id="dc"></div><div class="mt"><div id="nd">☢️</div></div><div class="mt-lab"><span>Calma</span><span>Tensión nuclear</span><span>Guerra</span></div></div>`;
+ const paint=v=>{$("#nd").style.left=v+"%";const d=v>85?1:v>65?2:v>45?3:v>25?4:5;$("#dc").className="defcon d"+d;$("#dc").innerHTML=`DEFCON <b>${d}</b>`};paint(base);
+ const step=()=>{const t=s.steps[i];
+  $("#ix").innerHTML=`<h3 class="q">${t.p}</h3>${t.o.map((o,j)=>`<button class="opt" data-j="${j}"><span class="lt">${j+1}</span>${o[0]}</button>`).join("")}${box(i===0?"DEFCON 2 fue el nivel de alerta más alto que EE.UU. alcanzó en toda su historia. Elige con cuidado, presidente.":"Elige con cuidado, presidente.")}`;
+  $$("#ix .opt").forEach(b=>b.onclick=()=>{const o=t.o[+b.dataset.j];$("#bx").innerHTML=`<p>${o[2]}</p>`;
+   if(o[3]){base=cl(base+o[1]);paint(base);$$("#ix .opt").forEach(x=>x.disabled=true);b.classList.add("ok");okFx();gain(8);i++;
+    if(i<s.steps.length){$("#bx").insertAdjacentHTML("beforeend",`<button class="btn" id="nd2">Siguiente decisión ▶</button>`);$("#nd2").onclick=step}
+    else{$("#bx").insertAdjacentHTML("beforeend",`<p><b>🕊️ Crisis superada.</b> Fueron 13 días con el mundo al borde de una guerra nuclear.</p>`);un()}}
+   else{paint(cl(base+o[1]));later(()=>paint(base),1400);b.classList.add("no");shake(b);b.disabled=true;miss()}})};
+ step()};
+
+K.quiz=s=>{let w=0;const o=shuffle(s.o.map((t,i)=>({t,i})));$("#st").classList.add("sm");
+ $("#st").innerHTML=`<div class="em">❓</div><div class="kicker light">Mini-reto</div>`;
+ $("#ix").innerHTML=`<h3 class="q">${s.p}</h3>${o.map((x,j)=>`<button class="opt" data-i="${x.i}"><span class="lt">${"ABC"[j]}</span>${x.t}</button>`).join("")}${box("Elige una respuesta (o usa las teclas 1, 2, 3).")}`;
+ $$("#ix .opt").forEach(b=>b.onclick=()=>{if(+b.dataset.i===s.c){$$("#ix .opt").forEach(x=>x.disabled=true);b.classList.add("ok");okFx();gain(w?5:12);if(!w)S.fq++;save();$("#bx").innerHTML=`<p>✅ ${w?"¡Eso es!":"¡Exacto, al primer intento!"} ${s.e}</p>`;un()}
+  else{w=1;b.disabled=true;b.classList.add("no");shake(b);miss();$("#bx").innerHTML=`<p>💡 ${s.hint}</p>`}})};
+
+K.swipe=s=>{let i=0,busy=false,x0=null,dx=0;
+ $("#st").innerHTML=`<div class="sw-wrap"><div class="sw-side">⬅<br>🇺🇸</div><div class="cd" id="cd"></div><div class="sw-side">➡<br>🇷🇺</div></div><div class="sw-count" id="swc"></div>`;
+ $("#ix").innerHTML=`<div class="sw"><button class="btn blue" data-s="0">🇺🇸 EE.UU.</button><button class="btn red" data-s="1">🇷🇺 URSS</button></div>${box("Arrastra la tarjeta a un lado, usa los botones o las flechas ⬅ ➡ del teclado.")}`;
+ const cd=$("#cd");
+ const show=()=>{cd.className="cd in";cd.style.transform="";cd.textContent=s.i[i][0];$("#swc").textContent=`Tarjeta ${i+1} de ${s.i.length}`};show();
+ const pick=side=>{if(busy||i>=s.i.length)return;const c=s.i[i];
+  if(side===c[1]){busy=true;okFx();gain(4);$("#bx").innerHTML=`<p>✅ <b>${c[0]}</b> → ${side?"URSS":"EE.UU."}. ${c[2]}</p>`;cd.style.transform="";cd.className="cd out"+(side?"R":"L");i++;
+   later(()=>{busy=false;if(i<s.i.length)show();else{cd.className="cd in static";cd.textContent="🎉 ¡Todas clasificadas!";$("#swc").textContent="";$$(".sw .btn").forEach(b=>b.disabled=true);un()}},380)}
+  else{miss();cd.style.transform="";shake(cd);$("#bx").innerHTML=`<p>💡 Pista: ${c[3]}.</p>`}};
+ $$(".sw .btn").forEach(b=>b.onclick=()=>pick(+b.dataset.s));
+ cd.onpointerdown=e=>{if(busy||i>=s.i.length)return;x0=e.clientX;dx=0;cd.setPointerCapture(e.pointerId);cd.classList.add("drag")};
+ cd.onpointermove=e=>{if(x0===null)return;dx=e.clientX-x0;cd.style.transform=`translateX(${dx}px) rotate(${dx/18}deg)`;cd.dataset.tilt=dx<-30?"l":dx>30?"r":""};
+ cd.onpointerup=cd.onpointercancel=()=>{if(x0===null)return;x0=null;cd.classList.remove("drag");cd.dataset.tilt="";if(Math.abs(dx)>70)pick(dx<0?0:1);else cd.style.transform=""}};
+
+K.launch=s=>{let p=0,d=1.25,done=false;
+ $("#st").innerHTML=`<div class="sky" id="sky"><div class="stars"></div><div class="rocket" id="rk">🚀</div><div class="pad"></div><div class="cdn" id="cdn"></div></div><div class="w100"><div class="nl"><div class="z"></div><div class="p" id="pn"></div></div><div class="mt-lab"><span>Poca</span><span>Potencia</span><span>Demasiada</span></div></div>`;
+ $("#ix").innerHTML=`<button class="btn big" id="bt">🔥 ¡Encender motores!</button>${box("Toca cuando la aguja blanca esté en la zona verde.")}`;
+ every(()=>{if(done)return;p+=d;if(p>=100||p<=0){d=-d;p=Math.max(0,Math.min(100,p))}$("#pn").style.left=p+"%"},16);
+ $("#bt").onclick=()=>{if(done)return;
+  if(p>=38&&p<=62){done=true;$("#bt").disabled=true;okFx();let c=3;const cdn=$("#cdn");cdn.textContent=c;SFX.beep();$("#bx").innerHTML=`<p>✅ ¡Potencia perfecta! Cuenta regresiva…</p>`;
+   const t=every(()=>{c--;if(c>0){cdn.textContent=c;SFX.beep()}else{clearInterval(t);cdn.textContent="¡Despegue!";SFX.launch();$("#rk").classList.add("go");gain(8);$("#bx").innerHTML=`<p>${s.end}</p>`;un()}},650)}
+  else{miss();d=Math.sign(d)*Math.max(.55,Math.abs(d)*.8);$("#bx").innerHTML=`<p>💥 ${p<38?"Poca potencia: el cohete no sube.":"¡Demasiada potencia! Los motores se sobrecalientan."} Inténtalo otra vez (la aguja irá más lenta).</p>`;shake($("#sky"))}}};
+
+K.cipher=s=>{const E=(x,n)=>x.replace(/[A-Z]/g,c=>String.fromCharCode((c.charCodeAt(0)-65+n+260)%26+65)),enc=E(s.w,s.sh);let done=false;
+ const draw=t=>t.split(" ").map(w=>`<span class="w">${[...w].map(c=>`<i>${c}</i>`).join("")}</span>`).join("");
+ $("#st").innerHTML=`<div class="w100 c"><div class="kicker light">🔒 Mensaje interceptado</div><div class="cipher" id="cp">${draw(enc)}</div></div>`;
+ $("#ix").innerHTML=`${box("Cada letra se corrió varios puestos en el abecedario (A→B→C…). Gira el dial hasta que el mensaje tenga sentido.","")}<div class="dial"><button class="btn sq" id="dm" aria-label="Girar a la izquierda">−</button><input type="range" id="rg" min="0" max="25" value="0" aria-label="Dial"><button class="btn sq" id="dp" aria-label="Girar a la derecha">+</button></div><div class="c mut" id="dv">Dial: 0</div>`;
+ const rg=$("#rg"),upd=()=>{if(done)return;const v=+rg.value,d=E(enc,-v);$("#cp").innerHTML=draw(d);$("#dv").textContent="Dial: "+v;
+  if(d===s.w){done=true;[rg,$("#dm"),$("#dp")].forEach(x=>x.disabled=true);$("#cp").classList.add("solved");okFx();gain(8);$("#bx").innerHTML=`<p>🔓 ${s.end}</p>`;un()}};
+ rg.oninput=upd;$("#dm").onclick=()=>{rg.value=(+rg.value+25)%26;upd()};$("#dp").onclick=()=>{rg.value=(+rg.value+1)%26;upd()};
+ later(()=>{if(!done)$("#bx").innerHTML=`<p>💡 Pista de la central: el número secreto está entre 5 y 9.</p>`},15000)};
+
+K.order=s=>{let n=0;const N=[...s.i].sort((a,b)=>a[1]-b[1]);
+ $("#st").innerHTML=`<ol class="slots" id="tl">${N.map((_,j)=>`<li class="slot"><span class="sn">${j+1}</span><span class="sv">?</span></li>`).join("")}</ol>`;
+ $("#ix").innerHTML=`${shuffle(s.i).map(x=>`<button class="opt" data-y="${x[1]}">${x[0]}</button>`).join("")}${box("Toca los eventos del más antiguo al más reciente.")}`;
+ $$("#ix .opt").forEach(b=>b.onclick=()=>{
+  if(+b.dataset.y===N[n][1]){const li=$$("#tl .slot")[n];li.classList.add("on");li.querySelector(".sv").innerHTML=`<b>${N[n][1]}</b> · ${N[n][0]}`;b.remove();okFx();gain(6);n++;
+   $("#bx").innerHTML=n<N.length?`<p>✅ ¡Bien! Van ${n} de ${N.length}.</p>`:`<p>🎯 ¡Reconstruiste la historia completa!</p>`;if(n===N.length)un()}
+  else{miss();shake(b);b.classList.add("no");setTimeout(()=>b.classList.remove("no"),450);$("#bx").innerHTML=`<p>💡 «${b.textContent}» pasó en otro momento. ¿Cuál vino antes?</p>`}})};
+
+K.match=s=>{let L=null,R=null,n=0;
+ $("#st").classList.add("sm");
+ $("#st").innerHTML=`<div class="w100 c"><div class="em">🧩</div><div class="kicker light">Parejas unidas: <b id="mc">0</b>/${s.p.length}</div><div class="mprog"><i id="mp"></i></div></div>`;
+ $("#ix").innerHTML=`<div class="match"><div class="mcol">${s.p.map((x,i)=>`<button class="pr" data-c="L" data-i="${i}">${x[0]}</button>`).join("")}</div><div class="mcol">${shuffle(s.p.map((x,i)=>({t:x[1],i}))).map(x=>`<button class="pr" data-c="R" data-i="${x.i}">${x.t}</button>`).join("")}</div></div>${box("Toca un concepto y luego su significado (en cualquier orden).")}`;
+ const tryPair=()=>{if(!L||!R)return;
+  if(L.dataset.i===R.dataset.i){const k=+L.dataset.i;[L,R].forEach(x=>{x.classList.remove("sel");x.classList.add("ok");x.disabled=true});okFx();gain(4);n++;$("#mc").textContent=n;$("#mp").style.width=n/s.p.length*100+"%";
+   $("#bx").innerHTML=`<p>✅ <b>${s.p[k][0]}</b>: ${s.p[k][1]}.</p>`;if(n===s.p.length){$("#bx").insertAdjacentHTML("beforeend","<p>🧩 ¡Todas las parejas unidas!</p>");un()}}
+  else{miss();shake(L);shake(R);$("#bx").innerHTML=`<p>❌ «${L.textContent}» no va con esa definición. ¡Prueba otra!</p>`;L.classList.remove("sel");R.classList.remove("sel")}
+  L=R=null};
+ $$(".pr").forEach(b=>b.onclick=()=>{const side=b.dataset.c;$$(`.pr[data-c="${side}"]`).forEach(x=>x.classList.remove("sel"));b.classList.add("sel");if(side==="L")L=b;else R=b;tryPair()})};
+
+K.tf=s=>{let i=0,t0=0,lock=false;const T=9000;
+ $("#st").innerHTML=`<div class="w100"><div class="kicker light c" style="margin-bottom:10px">🕵️ ¿Verdad o propaganda?</div><div class="cd static" id="cd"></div><div class="timer"><i id="tmr"></i></div><div class="sw-count" id="tfc" style="margin-top:6px"></div></div>`;
+ $("#ix").innerHTML=`<div class="sw"><button class="btn green" data-a="1">✅ Verdad</button><button class="btn red" data-a="0">🚫 Falso</button></div>${box("Responde antes de que se vacíe la barra para ganar ⚡ extra.")}`;
+ const bar=()=>$("#tmr");
+ const show=()=>{lock=false;const q=s.q[i],cd=$("#cd");cd.className="cd static in";cd.textContent=q[0];$("#tfc").textContent=`Afirmación ${i+1} de ${s.q.length}`;t0=performance.now();
+  const b=bar();b.style.transition="none";b.style.width="100%";void b.offsetWidth;b.style.transition=`width ${T}ms linear`;b.style.width="0%";$$(".sw .btn").forEach(x=>x.disabled=false);$("#bx").innerHTML=`<p class="mut">¿Verdad o falso?</p>`};
+ $$(".sw .btn").forEach(b=>b.onclick=()=>{if(lock)return;const q=s.q[i];
+  if(+b.dataset.a===q[1]){lock=true;$$(".sw .btn").forEach(x=>x.disabled=true);const fast=performance.now()-t0<T,br=bar(),w=getComputedStyle(br).width;br.style.transition="none";br.style.width=w;okFx();gain(fast?5:3);
+   $("#bx").innerHTML=`<p>✅ ${fast?"<b>¡Rápido!</b> ":""}${q[2]}</p>`;i++;
+   if(i<s.q.length){$("#bx").insertAdjacentHTML("beforeend",`<button class="btn" id="tfn">Siguiente afirmación ▶</button>`);$("#tfn").onclick=show}
+   else{$("#cd").textContent="🔍 ¡Detector de mentiras superado!";$("#tfc").textContent="";un()}}
+  else{miss();b.disabled=true;shake($("#cd"));$("#bx").innerHTML=`<p>💡 Mmm… piénsalo otra vez. ${q[3]}</p>`}});
+ show()};
+
+/* ============ AJUSTES Y EVENTOS ============ */
+function tgTheme(){const r=document.documentElement,dark=r.dataset.theme?r.dataset.theme==="dark":matchMedia("(prefers-color-scheme: dark)").matches;S.theme=dark?"light":"dark";r.dataset.theme=S.theme;save()}
+function tgSnd(b){S.snd=S.snd?0:1;save();if(b)b.textContent=S.snd?"🔊 Sonido":"🔇 Sin sonido";if(S.snd)SFX.ok()}
+function resetAll(){if(!confirm("¿Borrar todo tu progreso? Esta acción no se puede deshacer."))return;S=Object.assign(fresh(),{snd:S.snd,theme:S.theme,name:S.name,intro:1,dy:S.dy,ld:S.ld});save();home();toast("Progreso reiniciado")}
+function shr(){const t=`Completé «Guerra Fría: La Gran Misión» 🕶️ Puntaje: ${N(calc().total)} (${calc().g[0]}) · Rango: ${rank().n} ${rank().i} · ${S.xp} XP · ⭐ ${totalStars()}/${M.length*3}${S.exam?" · Examen "+S.exam+"/10":""}`;
+ if(navigator.share)navigator.share({text:t}).catch(()=>{});else if(navigator.clipboard)navigator.clipboard.writeText(t).then(()=>toast("📋 Copiado: ya puedes pegarlo"),()=>toast(t));else toast(t)}
+addEventListener("pointerdown",e=>{PX=e.clientX;PY=e.clientY},true);
+document.addEventListener("click",e=>{const b=e.target.closest("button");if(b&&!b.disabled){SFX.tap();if(e.detail===0){const r=b.getBoundingClientRect();PX=r.left+r.width/2;PY=r.top}}},true);
+addEventListener("keydown",e=>{if(e.target.closest("input,textarea")||e.ctrlKey||e.metaKey||e.altKey)return;
+ const n=parseInt(e.key,10);if(n>=1&&n<=9){const o=$$("#app .opt").filter(b=>!b.disabled);if(o[n-1]){o[n-1].focus();o[n-1].click()}return}
+ if(e.key==="ArrowLeft"||e.key==="ArrowRight"){const sw=$$(".sw .btn");if(sw.length===2){e.preventDefault();sw[e.key==="ArrowLeft"?0:1].click()}}});
+(()=>{const d=new Date().toDateString();if(S.ld!==d){const y=new Date(Date.now()-864e5).toDateString();S.dy=S.ld===y?(S.dy||0)+1:1;S.ld=d;save()}})();
+home();checkMedals();
+</script>
+</body>
+</html>
