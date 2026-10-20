@@ -3,7 +3,7 @@
 Juego educativo para aprender la Guerra Fría (1945–1991) como agente secreto.
 
 - 8 misiones: desde la división del mundo hasta la caída de la URSS, incluyendo América Latina y Colombia
-- 10 tipos de mini-juego: línea de tiempo, tarjetas para arrastrar, levantar y derribar el Muro, crisis de los misiles, lanzamiento del Sputnik, código secreto, verdad o propaganda, unir parejas y más
+- 12 tipos de reto: línea de tiempo, tarjetas para arrastrar, levantar y derribar el Muro, crisis de los misiles, lanzamiento del Sputnik, código secreto, verdad o propaganda, unir parejas y más
 - Archivo secreto para repasar, medallas, rangos, examen final, puntaje final y diploma imprimible
 - Funciona en celular y computador, con modo oscuro y lectura en voz alta
 

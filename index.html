@@ -23,7 +23,7 @@ body{margin:0;min-height:100vh;background:radial-gradient(900px 500px at 50% -12
 #app{max-width:640px;margin:0 auto;padding:max(10px,env(safe-area-inset-top)) 16px calc(32px + env(safe-area-inset-bottom))}
 :where(#app)>*{animation:in .35s ease-out both}
 @keyframes in{from{opacity:0;transform:translateY(8px)}}
-button{font:inherit;color:inherit;cursor:pointer;-webkit-user-select:none;user-select:none}
+button{font:inherit;color:inherit;cursor:pointer;-webkit-user-select:none;user-select:none;touch-action:manipulation}
 button:disabled{cursor:default}
 :focus-visible{outline:3px solid var(--acc);outline-offset:2px}
 h1{font-size:2rem;line-height:1.1;margin:.15em 0;font-weight:900;letter-spacing:-.01em}
@@ -134,6 +134,7 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 .wall b{height:26px;border-radius:4px;background:rgba(255,255,255,.07);border:1px dashed rgba(255,255,255,.18)}
 .wall b.on{background:#b4553a;border:0;box-shadow:inset 0 -3px 0 rgba(0,0,0,.25);animation:drop .25s cubic-bezier(.2,1.4,.4,1)}
 .wall b.fall{background:#b4553a;border:0;animation:fall .7s ease-in forwards}
+.wall b.gone{visibility:hidden}
 @keyframes drop{from{transform:translateY(-30px);opacity:0}}
 @keyframes fall{to{transform:translateY(90px) rotate(35deg);opacity:0}}
 .wire{height:12px;margin:0 6px 2px;background:repeating-linear-gradient(90deg,#cfd6e6 0 2px,transparent 2px 9px),linear-gradient(transparent 5px,#cfd6e6 5px 7px,transparent 7px);opacity:0;transition:opacity .4s}
@@ -166,7 +167,7 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 .timer{height:8px;border-radius:9px;background:rgba(255,255,255,.15);overflow:hidden;margin-top:12px}.timer i{display:block;height:100%;width:100%;background:var(--acc)}
 /* cohete */
 .sky{position:relative;width:100%;height:170px;overflow:hidden;border-radius:14px}
-.stars{position:absolute;inset:0;background-image:radial-gradient(1.5px 1.5px at 20% 30%,#fff,transparent),radial-gradient(1px 1px at 70% 20%,#fff,transparent),radial-gradient(1.5px 1.5px at 40% 72%,#fff,transparent),radial-gradient(1px 1px at 86% 58%,#fff,transparent),radial-gradient(1px 1px at 10% 80%,#fff,transparent),radial-gradient(1.5px 1.5px at 58% 42%,#fff,transparent),radial-gradient(1px 1px at 30% 12%,#fff,transparent),radial-gradient(1.5px 1.5px at 92% 14%,#fff,transparent);opacity:.85}
+.starfield{position:absolute;inset:0;background-image:radial-gradient(1.5px 1.5px at 20% 30%,#fff,transparent),radial-gradient(1px 1px at 70% 20%,#fff,transparent),radial-gradient(1.5px 1.5px at 40% 72%,#fff,transparent),radial-gradient(1px 1px at 86% 58%,#fff,transparent),radial-gradient(1px 1px at 10% 80%,#fff,transparent),radial-gradient(1.5px 1.5px at 58% 42%,#fff,transparent),radial-gradient(1px 1px at 30% 12%,#fff,transparent),radial-gradient(1.5px 1.5px at 92% 14%,#fff,transparent);opacity:.85}
 .rocket{position:absolute;left:50%;bottom:16px;font-size:3.2rem;line-height:1;transform:translateX(-50%) rotate(-45deg);transition:transform 1.8s cubic-bezier(.5,0,.8,.2)}
 .rocket.go{transform:translateX(-50%) translateY(-260px) rotate(-45deg)}
 .pad{position:absolute;left:0;right:0;bottom:0;height:14px;background:rgba(255,255,255,.14)}
@@ -190,7 +191,7 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 /* parejas */
 .match{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
 .mcol{display:flex;flex-direction:column;gap:8px}
-.pr{flex:1;background:var(--card);border:2px solid var(--line);border-radius:12px;padding:10px;font-size:.88rem;font-weight:700;text-align:left;min-height:58px;line-height:1.3;transition:border-color .15s,background .15s,transform .1s,opacity .2s}
+.pr{flex:1 0 auto;background:var(--card);border:2px solid var(--line);border-radius:12px;padding:10px;font-size:.88rem;font-weight:700;text-align:left;min-height:58px;line-height:1.3;transition:border-color .15s,background .15s,transform .1s,opacity .2s}
 .pr.sel{border-color:var(--acc);background:color-mix(in srgb,var(--acc) 18%,var(--card));transform:scale(1.02)}
 .pr.ok{border-color:var(--ok);background:var(--okbg);opacity:.7}
 .mprog{height:8px;border-radius:9px;background:rgba(255,255,255,.15);overflow:hidden;margin-top:12px;width:100%}.mprog i{display:block;height:100%;width:0;background:#5fd394;transition:width .4s}
@@ -232,7 +233,7 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 .intro{padding-top:6vh}
 .folder{position:relative;background:var(--card);border:1px solid var(--line);border-radius:4px 22px 22px 22px;padding:30px 20px 22px;box-shadow:0 22px 44px -26px rgba(0,0,0,.5);text-align:center;margin-top:20px}
 .folder::before{content:"";position:absolute;top:-19px;left:-1px;width:130px;height:20px;background:var(--card);border:1px solid var(--line);border-bottom:0;border-radius:10px 10px 0 0}
-.folder .stamp{position:absolute;top:16px;right:14px}
+.folder .stamp{position:absolute;top:-16px;right:12px;background:var(--card)}
 .big-ic{font-size:4rem;margin:8px 0 0;line-height:1.1}
 #brief{text-align:left;font-weight:600;min-height:7.5em;margin:14px 0}
 .lbl{display:block;text-align:left;font-weight:800;font-size:.85rem;margin-top:6px}
@@ -271,7 +272,7 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 /* diploma */
 .cert{background:#fbf6ea;color:#2a241b;border-radius:10px;padding:10px;margin:14px 0;box-shadow:0 12px 30px -16px rgba(0,0,0,.55)}
 .cert-in{position:relative;border:3px double #8a6d3b;border-radius:6px;padding:30px 16px 22px;text-align:center}
-.cert .stamp{position:absolute;top:12px;right:10px;color:#b0362a;border-color:#b0362a;font-size:.75rem}
+.cert .stamp{position:absolute;top:-14px;right:8px;color:#b0362a;border-color:#b0362a;font-size:.75rem;background:#fbf6ea}
 .cert .kicker{color:#6d5a3a}
 .cert h2{font-family:"Special Elite",monospace;font-size:1.7rem;margin:.2em 0 .5em;letter-spacing:.04em}
 .cert p{margin:.3em 0}
@@ -301,8 +302,8 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 "use strict";
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const app=$("#app"),RM=matchMedia("(prefers-reduced-motion: reduce)").matches;
-const fresh=()=>({xp:0,done:{},st:{},er:{},tm:{},files:{},medals:{},fq:0,intro:0,snd:1,theme:"",dy:0,ld:"",exam:0,name:""});
-let S=fresh(),cur=null,TM=[];
+const fresh=()=>({xp:0,done:{},st:{},er:{},tm:{},files:{},medals:{},fq:0,intro:0,snd:1,theme:"",dy:0,ld:"",exam:0,ex1:0,name:""});
+let S=fresh(),cur=null,TM=[],EXI=0;
 try{const raw=localStorage.getItem("gf3");if(raw)Object.assign(S,JSON.parse(raw));else{const o=JSON.parse(localStorage.getItem("gf2")||"null");if(o)Object.assign(S,{xp:o.xp||0,done:o.done||{},st:o.st||{},fq:o.fq||0,intro:o.intro||0,dy:o.dy||0,ld:o.ld||""})}}catch(e){}
 function save(){try{localStorage.setItem("gf3",JSON.stringify(S))}catch(e){}}
 if(S.theme)document.documentElement.dataset.theme=S.theme;
@@ -362,7 +363,7 @@ const M=[
  sc:[
  {k:"time",say:"En los 80 la URSS estaba agotada. Desliza para ver su final.",min:1985,max:1991,ev:[[1985,"🗣️","Gorbachov llega al poder y propone reformas."],[1986,"🔍","Glasnost = transparencia. Perestroika = reestructuración."],[1989,"🧱","Cae el Muro de Berlín. Europa del Este se libera del control soviético."],[1990,"🇩🇪","Alemania vuelve a ser un solo país."],[1991,"🏚️","Se disuelve la URSS. Termina la Guerra Fría."]]},
  {k:"breakwall",say:"9 de noviembre de 1989: ¡se abre la frontera! Ayuda a los berlineses a derribar el muro.",end:"¡El Muro cayó! Menos de un año después, el 3 de octubre de 1990, Alemania volvió a unirse."},
- {k:"hot",map:1,say:"Mapa táctico: la Guerra Fría fue mundial. Toca cada punto caliente.",h:[["🇺🇸","EE.UU.","Líder del bloque occidental.",18,32],["🇨🇺","Cuba","La revolución de 1959 la volvió pieza clave; en 1962 casi hubo guerra nuclear.",27,56],["🇨🇴","Colombia","Único país latinoamericano que envió tropas de combate a Corea (1951–53).",33,82],["🧱","Berlín","Justo en la frontera: el símbolo de la división de Europa.",50,30],["🇷🇺","URSS","Líder del bloque comunista.",72,30],["🇰🇷","Corea","1950–53: guerra «por poderes», con Colombia en el bando de la ONU.",88,48],["🇻🇳","Vietnam","Otra guerra por poderes: EE.UU. y el bloque comunista apoyaban a bandos opuestos.",78,76]]},
+ {k:"hot",map:1,say:"Mapa táctico: la Guerra Fría fue mundial. Toca cada punto caliente.",h:[["🇺🇸","EE.UU.","Líder del bloque occidental.",18,32],["🇨🇺","Cuba","La revolución de 1959 la volvió pieza clave; en 1962 casi hubo guerra nuclear.",27,56],["🇨🇴","Colombia","Único país latinoamericano que envió tropas de combate a Corea (1951–53).",33,82],["🧱","Berlín","Justo en la frontera: el símbolo de la división de Europa.",50,30],["🇷🇺","URSS","Líder del bloque comunista.",76,30],["🇰🇷","Corea","1950–53: guerra «por poderes», con Colombia en el bando de la ONU.",89,54],["🇻🇳","Vietnam","Otra guerra por poderes: EE.UU. y el bloque comunista apoyaban a bandos opuestos.",78,76]]},
  {k:"order",say:"🏆 JEFE FINAL: reconstruye la Guerra Fría en el orden correcto.",i:[["Bloqueo de Berlín",1948],["Sputnik",1957],["Revolución cubana",1959],["Se levanta el Muro de Berlín",1961],["Crisis de los misiles",1962],["Apolo 11 en la Luna",1969],["Cae el Muro de Berlín",1989]]},
  {k:"quiz",say:"Último mini-reto:",p:"¿En qué año se disolvió la URSS?",o:["1991","1961","1975"],c:0,hint:"Pista: dos años después de la caída del Muro.",e:"En 1991 terminó la Guerra Fría."}]}
 ];
@@ -422,6 +423,12 @@ function checkMedals(){MEDALS.forEach((m,i)=>{if(!S.medals[i]&&m[3]()){S.medals[
 function speak(t){if(!("speechSynthesis" in window))return toast("Tu navegador no puede leer en voz alta");const sy=speechSynthesis;if(sy.speaking){sy.cancel();return}
  const u=new SpeechSynthesisUtterance(t.replace(/EE\.UU\./g,"Estados Unidos").replace(/[\u{1F000}-\u{1FFFF}\u{2600}-\u{27BF}\u{FE0F}\u{200D}]/gu,""));u.lang="es-ES";const v=sy.getVoices().find(v=>/^es/i.test(v.lang));if(v){u.voice=v;u.lang=v.lang}u.rate=.95;u.onstart=()=>talk(true);u.onend=u.onerror=()=>talk(false);sy.speak(u)}
 function hush(){try{speechSynthesis.cancel()}catch(e){}}
+/* Botón "atrás" del navegador/celular: vuelve al mapa en vez de cerrar el juego */
+function sub(){try{if(!history.state||!history.state.g)history.pushState({g:1},"")}catch(e){}}
+const QUIT_M="¿Salir de la misión? Perderás el avance de esta misión.",QUIT_E="¿Salir del examen? Perderás las respuestas de esta ronda.";
+function quitMsg(){return(cur&&cur.k>0)?QUIT_M:EXI>0?QUIT_E:""}
+function leave(){const q=quitMsg();if(q&&!confirm(q))return;home()}
+addEventListener("popstate",()=>{const q=quitMsg();if(q&&!confirm(q)){sub();return}home()});
 function tw(el){const t=el.textContent;if(RM)return;const ch=[...t];let i=0,h;el.textContent="";el.classList.add("tw");talk(true);const done=()=>{clearInterval(h);el.textContent=t;el.classList.remove("tw");talk(false)};h=every(()=>{i+=2;el.textContent=ch.slice(0,i).join("");if(i>=ch.length)done()},18);el.onclick=done}
 const AV=`<svg viewBox="0 0 64 64" aria-hidden="true"><defs><clipPath id="avc"><circle cx="32" cy="32" r="32"/></clipPath><radialGradient id="avbg" cx="50%" cy="30%" r="75%"><stop offset="0" stop-color="#3a5aa8"/><stop offset="1" stop-color="#16244a"/></radialGradient></defs>
 <g clip-path="url(#avc)"><rect width="64" height="64" fill="url(#avbg)"/>
@@ -457,10 +464,10 @@ const stars=n=>`<span class="ss">${"★".repeat(n)}${"☆".repeat(3-n)}</span>`;
 function intro(){app.innerHTML=`<div class="intro"><div class="folder"><span class="stamp in">Top secret</span><div class="kicker">Expediente 1945–1991</div><span class="av lg" aria-hidden="true">${AV}</span><h1>Guerra Fría:<br>La Gran Misión</h1>
  <p id="brief">Agente: el mundo quedó dividido en dos bloques que nunca se atacaron de frente, pero compitieron en todo. Tu misión es descubrir cómo pasó, archivo por archivo. Primero te lo explico y luego viene un reto cortito.</p>
  <label class="lbl" for="nm">Tu nombre en clave (opcional)</label><input id="nm" class="inp" maxlength="40" placeholder="Agente X" value="${esc(S.name)}" autocomplete="off">
- <button class="btn acc big" id="go">▶ Aceptar misión</button><p class="mut">${M.length} misiones · 10 tipos de mini-juego · archivo secreto · examen final</p></div></div>`;
+ <button class="btn acc big" id="go">▶ Aceptar misión</button><p class="mut">${M.length} misiones · 12 tipos de reto · archivo secreto · examen final</p></div></div>`;
  tw($("#brief"));$("#go").onclick=()=>{S.name=$("#nm").value.trim();S.intro=1;save();home()}}
 
-function home(){stopTimers();hush();cur=null;if(!S.intro)return intro();
+function home(){stopTimers();hush();cur=null;EXI=0;if(!S.intro)return intro();
  const d=nDone(),r=rank(),nextI=M.findIndex(m=>!S.done[m.id]);
  app.innerHTML=`<header class="hero"><div><div class="kicker">Expediente N.º 1945–1991</div><h1>La Gran Misión</h1><div class="mut">Hola, agente${S.name?" <b>"+esc(S.name)+"</b>":""}. ${d===0?"Tu primera misión te espera.":allDone()?"¡Completaste todas las misiones!":"Sigue con la misión "+(nextI+1)+"."}</div></div><span class="stamp in">Top secret</span></header>
  <section class="card"><div class="agent-row"><div class="badge">${r.i}</div><div style="flex:1;min-width:0"><b>${r.n}</b><div class="mut">Nivel ${lvl()} · ⚡ ${S.xp} XP${r.next?" · faltan "+(r.next-S.xp)+" para ascender":""}</div><div class="bar" title="Progreso de nivel"><i style="width:${S.xp%40/40*100}%"></i></div></div></div>
@@ -469,20 +476,20 @@ function home(){stopTimers();hush();cur=null;if(!S.intro)return intro();
  <div class="sec-h"><h2>Misiones</h2><span class="mut">⭐ ${totalStars()}/${M.length*3}</span></div>
  <div class="path">${M.map((m,i)=>{const dn=!!S.done[m.id],lk=i>0&&!S.done[M[i-1].id]&&!dn,nx=i===nextI;
   return `<button class="nd ${dn?"dn":""} ${nx?"nx1":""}" ${lk?"disabled":""} onclick="start(${i})"><span class="ic">${lk?"🔒":m.ic}</span><span class="nd-t"><small>Misión ${i+1} · ${m.y}</small><b>${m.n}</b><span class="mut">${dn?stars(S.st[m.id]||1)+" Completada":lk?"Completa la anterior":"▶ "+m.sc.length+" pasos"}</span></span><span class="arr">${lk?"":"›"}</span></button>`}).join("")}</div>
- <div class="grid2"><button class="tile" onclick="codex()">📂<b>Archivo secreto</b><span>${nFiles()}/${FILES.length} desclasificados</span></button><button class="tile" ${allDone()?"":"disabled"} onclick="exam()">🎖️<b>Examen final</b><span>${allDone()?(S.exam?"Récord: "+S.exam+"/10":"¡Disponible!"):"Completa las "+M.length+" misiones"}</span></button></div>
+ <div class="grid2"><button class="tile" onclick="codex()">📂<b>Archivo secreto</b><span>${nFiles()}/${FILES.length} desclasificados</span></button><button class="tile" ${allDone()?"":"disabled"} onclick="exam()">🎖️<b>Examen final</b><span>${allDone()?(S.ex1||S.exam?"Récord: "+(S.exam||0)+"/10":"¡Disponible!"):"Completa las "+M.length+" misiones"}</span></button></div>
  ${allDone()?`<button class="btn acc" onclick="score()">📊 Mi puntaje final · ${N(calc().total)} pts</button><button class="btn ghost" onclick="diploma()">🎓 Mi diploma de agente</button>`:""}
  <footer class="foot"><button class="lnk" onclick="tgTheme()">🌓 Tema</button><button class="lnk" onclick="tgSnd(this)">${S.snd?"🔊 Sonido":"🔇 Sin sonido"}</button><button class="lnk" onclick="resetAll()">↺ Reiniciar</button></footer>`;
  $$(".md").forEach(b=>b.onclick=()=>{const i=+b.dataset.md,m=MEDALS[i];toast(m[0]+" "+m[1]+" — "+(S.medals[i]?"¡conseguida!":m[2]))})}
 
-function codex(){stopTimers();hush();cur=null;
+function codex(){stopTimers();hush();cur=null;EXI=0;sub();
  app.innerHTML=`<div class="top"><button class="g" onclick="home()" aria-label="Volver al mapa">←</button><div class="tt"><small>Archivo secreto</small><b>${nFiles()}/${FILES.length} desclasificados</b></div></div>
  <p class="mut">Cada archivo que abres en las misiones queda guardado aquí para que repases cuando quieras.</p>
  ${M.map((m,mi)=>{const fs=FILES.filter(f=>f.m===m),k=fs.filter(f=>S.files[f.key]).length;
   return `<details class="card cx" ${k?"open":""}><summary><span>${m.ic} <b>${mi+1}. ${m.n}</b></span><span class="chip">${k}/${fs.length}</span></summary>${fs.map(f=>S.files[f.key]?`<div class="cx-i"><span class="cx-ic">${f.ic}</span><div><b>${f.t}</b><p>${f.x}</p></div></div>`:`<div class="cx-i" aria-label="Archivo clasificado"><span class="cx-ic">🔒</span><div><span class="rd" style="width:35%"></span><span class="rd" style="width:90%"></span><span class="rd" style="width:65%"></span></div></div>`).join("")}</details>`}).join("")}`}
 
-function exam(){stopTimers();hush();cur=null;const pool=shuffle([...M.flatMap(m=>m.sc.filter(s=>s.k==="quiz")),...EXTRA]).slice(0,10);let i=0,sc=0;
- const q=()=>{const s=pool[i],o=shuffle(s.o.map((t,j)=>({t,j})));
-  app.innerHTML=`<div class="top"><button class="g" onclick="home()" aria-label="Salir del examen">✕</button><div class="tt"><small>Examen final</small><b>Pregunta ${i+1} de ${pool.length}</b></div><span class="chip">✅ ${sc}</span></div>
+function exam(){stopTimers();hush();cur=null;EXI=0;sub();const pool=shuffle([...M.flatMap(m=>m.sc.filter(s=>s.k==="quiz")),...EXTRA]).slice(0,10);let i=0,sc=0;
+ const q=()=>{const s=pool[i],o=shuffle(s.o.map((t,j)=>({t,j})));EXI=i;
+  app.innerHTML=`<div class="top"><button class="g" onclick="leave()" aria-label="Salir del examen">✕</button><div class="tt"><small>Examen final</small><b>Pregunta ${i+1} de ${pool.length}</b></div><span class="chip">✅ ${sc}</span></div>
   <div class="segs">${pool.map((_,j)=>`<i class="${j<i?"d":j===i?"c":""}"></i>`).join("")}</div>
   <div class="stage sm" style="margin-top:12px"><div class="em">🎖️</div><div class="kicker light">Un solo intento por pregunta</div></div>
   <h3 class="q">${s.p}</h3>${o.map((x,k)=>`<button class="opt" data-j="${x.j}"><span class="lt">${"ABC"[k]}</span>${x.t}</button>`).join("")}<div class="dossier" id="bx" aria-live="polite"><p class="mut">Elige una respuesta (o usa las teclas 1, 2, 3).</p></div>`;
@@ -490,7 +497,7 @@ function exam(){stopTimers();hush();cur=null;const pool=shuffle([...M.flatMap(m=
    if(right){sc++;okFx()}else{b.classList.add("no");SFX.bad()}
    $("#bx").innerHTML=`<p>${right?"✅ ¡Correcto!":"❌ La respuesta correcta está en verde."} ${s.e}</p><button class="btn acc" id="enx">${i<pool.length-1?"Siguiente ▶":"Ver resultado 🏁"}</button>`;
    $("#enx").onclick=()=>{i++;i<pool.length?q():res()};$("#enx").focus({preventScroll:true});$("#enx").scrollIntoView({behavior:RM?"auto":"smooth",block:"nearest"})})};
- const res=()=>{const prev=S.exam||0,pass=sc>=6;if(sc>prev)S.exam=sc;save();gain(Math.max(0,sc-prev)*4+3,innerWidth/2,innerHeight/3);
+ const res=()=>{EXI=0;const prev=S.exam||0,pass=sc>=6;if(sc>prev)S.exam=sc;S.ex1=1;save();gain(Math.max(0,sc-prev)*4+3,innerWidth/2,innerHeight/3);
   app.innerHTML=`<div class="fin"><span class="stamp big in">${pass?"Aprobado":"A repasar"}</span><div class="medal-big">${sc>=8?"🎖️":pass?"🏅":"📚"}</div><h1>${sc}/10</h1>
   <p class="mut">${sc===10?"¡Perfecto! Eres una leyenda del espionaje histórico.":sc>=8?"¡Excelente! Nivel Director de Inteligencia.":pass?"¡Bien hecho! Repasa el archivo secreto para subir tu nota.":"Repasa el archivo secreto y vuelve a intentarlo. ¡Tú puedes!"}</p>
   ${prev&&sc>prev?`<p><b>🆕 ¡Nuevo récord!</b> (antes: ${prev}/10)</p>`:""}
@@ -499,16 +506,16 @@ function exam(){stopTimers();hush();cur=null;const pool=shuffle([...M.flatMap(m=
   if(pass){SFX.win();conf()}};
  q()}
 
-function diploma(){stopTimers();hush();cur=null;const r=rank();
+function diploma(){stopTimers();hush();cur=null;EXI=0;sub();const r=rank();
  app.innerHTML=`<div class="top"><button class="g" onclick="home()" aria-label="Volver al mapa">←</button><div class="tt"><small>Recompensa</small><b>Diploma de agente</b></div></div>
  <div class="card"><label class="lbl" for="nm">Nombre que aparece en el diploma</label><input id="nm" class="inp" maxlength="40" value="${esc(S.name)}" placeholder="Escribe tu nombre" autocomplete="off"></div>
- <div class="cert" id="cert"><div class="cert-in"><span class="stamp">Desclasificado</span><div class="kicker">Servicio de Inteligencia Histórica</div><h2>Diploma de Agente</h2><p>Se certifica que</p><div class="cert-n" id="cn">${esc(S.name)||"________"}</div><p>completó las ${M.length} misiones de <b>Guerra Fría: La Gran Misión</b> con el rango de</p><div class="cert-r">${r.i} ${r.n}</div><div class="cert-f"><span>🏆 ${N(calc().total)} pts</span><span>⚡ ${S.xp} XP</span><span>⭐ ${totalStars()}/${M.length*3}</span><span>📂 ${nFiles()}/${FILES.length}</span><span>🎖️ Examen: ${S.exam||"–"}/10</span></div><div class="cert-d">${new Date().toLocaleDateString("es-CO",{day:"numeric",month:"long",year:"numeric"})}</div></div></div>
+ <div class="cert" id="cert"><div class="cert-in"><span class="stamp">Desclasificado</span><div class="kicker">Servicio de Inteligencia Histórica</div><h2>Diploma de Agente</h2><p>Se certifica que</p><div class="cert-n" id="cn">${esc(S.name)||"________"}</div><p>completó las ${M.length} misiones de <b>Guerra Fría: La Gran Misión</b> con el rango de</p><div class="cert-r">${r.i} ${r.n}</div><div class="cert-f"><span>🏆 ${N(calc().total)} pts</span><span>⚡ ${S.xp} XP</span><span>⭐ ${totalStars()}/${M.length*3}</span><span>📂 ${nFiles()}/${FILES.length}</span><span>🎖️ Examen: ${S.ex1||S.exam?S.exam||0:"–"}/10</span></div><div class="cert-d">${new Date().toLocaleDateString("es-CO",{day:"numeric",month:"long",year:"numeric"})}</div></div></div>
  <button class="btn acc" onclick="window.print()">🖨️ Imprimir o guardar PDF</button><button class="btn ghost" onclick="shr()">📤 Compartir mi rango</button>`;
  $("#nm").oninput=e=>{S.name=e.target.value.slice(0,40);save();$("#cn").textContent=S.name||"________"}}
 
-function start(i){hush();cur={i,k:0,m:M[i],e:0,x0:S.xp,t0:Date.now()};go()}
+function start(i){hush();EXI=0;sub();cur={i,k:0,m:M[i],e:0,x0:S.xp,t0:Date.now()};go()}
 function go(){stopTimers();const s=cur.m.sc[cur.k];if(!s)return fin();const last=cur.k===cur.m.sc.length-1;
- app.innerHTML=`<div class="top"><button class="g" onclick="home()" aria-label="Volver al mapa">🗺️</button><div class="tt"><small>Misión ${cur.i+1} · Paso ${cur.k+1} de ${cur.m.sc.length}</small><b>${cur.m.n}</b></div><span class="chip" id="xpc">⚡ ${S.xp}</span></div>
+ app.innerHTML=`<div class="top"><button class="g" onclick="leave()" aria-label="Volver al mapa">🗺️</button><div class="tt"><small>Misión ${cur.i+1} · Paso ${cur.k+1} de ${cur.m.sc.length}</small><b>${cur.m.n}</b></div><span class="chip" id="xpc">⚡ ${S.xp}</span></div>
  <div class="segs">${cur.m.sc.map((_,i)=>`<i class="${i<cur.k?"d":i===cur.k?"c":""}"></i>`).join("")}</div>
  <div class="say"><span class="av" aria-hidden="true">${AV}</span><div class="bub"><p id="sayp">${s.say}</p><button class="spk" aria-label="Escuchar en voz alta" onclick="speak(cur.m.sc[cur.k].say)">🔊</button></div></div>
  <div class="stage" id="st"></div><div id="ix"></div>
@@ -520,7 +527,8 @@ function un(){const b=$("#nx");if(!b||!b.disabled)return;b.disabled=false;b.clas
 function fin(){stopTimers();const m=cur.m,e=cur.e,st=e===0?3:e<=2?2:1,wasAll=allDone();S.done[m.id]=1;S.st[m.id]=Math.max(S.st[m.id]||0,st);
  const secs=Math.round((Date.now()-cur.t0)/1000);S.er[m.id]=S.er[m.id]==null?e:Math.min(S.er[m.id],e);S.tm[m.id]=S.tm[m.id]==null?secs:Math.min(S.tm[m.id],secs);save();gain(10,innerWidth/2,innerHeight/3);
  const r=rank(),hasNext=cur.i<M.length-1;
- if(!hasNext)return score(true);
+ if(!hasNext){cur=null;return score(true,m)}
+ cur.k=0;
  app.innerHTML=`<div class="fin"><span class="stamp big in">Misión cumplida</span><div class="medal-big">${m.ic}</div><h1>${m.n}</h1>
  <div class="stars" aria-label="${st} de 3 estrellas">${[0,1,2].map(j=>`<span class="${j<st?"on":""}" style="animation-delay:${.35+j*.25}s">★</span>`).join("")}</div>
  <p class="mut">${st===3?"¡Perfecto, sin errores!":st===2?"¡Muy bien! Solo algunos tropiezos.":"¡Completada! Repítela para ganar más estrellas."}</p>
@@ -534,21 +542,24 @@ function fin(){stopTimers();const m=cur.m,e=cur.e,st=e===0?3:e<=2?2:1,wasAll=all
 const N=n=>n.toLocaleString("es-CO");
 const fmtT=s=>s==null?"—":Math.floor(s/60)+":"+String(s%60).padStart(2,"0");
 function calc(){const rows=M.map((m,i)=>{const st=S.st[m.id]||0;return{m,i,st,pts:S.done[m.id]?100+st*50:0,er:S.er[m.id],tm:S.tm[m.id]}});
- const nm=MEDALS.filter((_,i)=>S.medals[i]).length,parts=[["🗺️","Misiones","100 por misión + 50 por estrella",rows.reduce((a,r)=>a+r.pts,0),M.length*250],["📂","Archivos",nFiles()+" × 10",nFiles()*10,FILES.length*10],["🏅","Medallas",nm+" × 50",nm*50,MEDALS.length*50],["🎖️","Examen final",S.exam?S.exam+"/10 × 30":"pendiente",(S.exam||0)*30,300]];
+ const nm=MEDALS.filter((_,i)=>S.medals[i]).length,parts=[["🗺️","Misiones","100 por misión + 50 por estrella",rows.reduce((a,r)=>a+r.pts,0),M.length*250],["📂","Archivos",nFiles()+" × 10",nFiles()*10,FILES.length*10],["🏅","Medallas",nm+" × 50",nm*50,MEDALS.length*50],["🎖️","Examen final",S.ex1||S.exam?(S.exam||0)+"/10 × 30":"pendiente",(S.exam||0)*30,300]];
  const total=parts.reduce((a,p)=>a+p[3],0),max=parts.reduce((a,p)=>a+p[4],0),pct=Math.round(total/max*100);
  const g=pct>=90?["S","Leyenda de la Guerra Fría","#d99a1e"]:pct>=75?["A","Agente de élite","#2e9d5b"]:pct>=55?["B","Buen agente","#2f6fd6"]:["C","Agente en entrenamiento","#8a6d3b"];
  const tms=rows.filter(r=>r.tm!=null),ers=rows.filter(r=>r.er!=null);
  return{rows,parts,total,max,pct,g,time:tms.length?tms.reduce((a,r)=>a+r.tm,0):null,errs:ers.length?ers.reduce((a,r)=>a+r.er,0):null}}
-function score(final){stopTimers();hush();cur=null;const c=calc();
+function score(final,lm){stopTimers();hush();cur=null;EXI=0;sub();const c=calc(),took=S.ex1||S.exam;
  app.innerHTML=`<div class="top"><button class="g" onclick="home()" aria-label="Volver al mapa">🗺️</button><div class="tt"><small>Reporte final del agente</small><b>${final?"¡Juego completado!":"Tu puntaje"}</b></div></div>
  <div class="fin" style="padding-top:8px">${final?`<span class="stamp big in">Misión completa</span><h1 style="margin-top:12px">¡Lo lograste, agente${S.name?" "+esc(S.name):""}!</h1><p class="mut">Recorriste toda la Guerra Fría, de 1945 a 1991. Este es tu reporte.</p>`:""}
  <div class="card score"><div class="kicker">Puntaje total</div><div class="sc-row"><div class="grade" style="background:${c.g[2]}">${c.g[0]}</div><div class="sc-n"><b id="tot">${N(c.total)}</b><span>de ${N(c.max)} puntos</span></div></div>
  <div class="bar big-bar"><i id="pbar" style="width:${c.pct}%"></i></div><div class="sc-g"><b>${c.g[1]}</b> · ${c.pct}%</div></div>
  <div class="card row3"><div><b>⭐ ${totalStars()}/${M.length*3}</b><span>estrellas</span></div><div><b>⏱️ ${fmtT(c.time)}</b><span>tiempo (mejores)</span></div><div><b>❌ ${c.errs==null?"—":c.errs}</b><span>errores</span></div></div>
  <div class="card" style="text-align:left"><div class="kicker">De dónde salen tus puntos</div>${c.parts.map(p=>`<div class="sr"><span class="sr-i">${p[0]}</span><span class="sr-n"><b>${p[1]}</b><small>${p[2]}</small></span><span class="sr-p">${N(p[3])}<small>/${N(p[4])}</small></span></div>`).join("")}</div>
+ ${lm?`<div class="card" style="text-align:left"><div class="kicker">Lo que aprendiste en la última misión</div><ul class="learn">${lm.learn.map(x=>`<li>${x}</li>`).join("")}</ul></div>
+ <div class="card" style="text-align:left"><div class="kicker">La Guerra Fría en una línea</div><p style="margin:.4em 0 0">🌍 Dos bloques (1945) → 🧱 Berlín dividida → 🪖 Corea y Vietnam → 🚀 Carrera espacial → ☢️ Crisis de Cuba (1962) → 🕵️ Espías y propaganda → 🌎 América Latina → 🏁 Cae el Muro (1989) y fin de la URSS (1991).</p></div>`:""}
  <div class="card" style="text-align:left"><div class="kicker">Misión por misión</div>${c.rows.map(r=>`<div class="sr"><span class="sr-i">${r.m.ic}</span><span class="sr-n"><b>${r.i+1}. ${r.m.n}</b><small>${S.done[r.m.id]?stars(r.st)+" · ⏱️ "+fmtT(r.tm)+" · ❌ "+(r.er==null?"—":r.er):"Sin completar"}</small></span><span class="sr-p">${r.pts}</span></div>`).join("")}</div>
- ${!S.exam&&allDone()?`<div class="card hl" style="text-align:left"><b>🎖️ ¡Aún puedes sumar hasta 300 puntos!</b><p class="mut" style="margin:.3em 0 0">Haz el examen final para completar tu reporte.</p></div><button class="btn acc big" onclick="exam()">🎖️ Hacer el examen final</button>`:""}
- ${allDone()?`<button class="btn ${S.exam?"acc":"ghost"}" onclick="diploma()">🎓 Ver mi diploma</button>`:""}
+ ${!took&&allDone()?`<div class="card hl" style="text-align:left"><b>🎖️ ¡Aún puedes sumar hasta 300 puntos!</b><p class="mut" style="margin:.3em 0 0">Haz el examen final para completar tu reporte.</p></div><button class="btn acc big" onclick="exam()">🎖️ Hacer el examen final</button>`:""}
+ ${took&&S.exam<10&&allDone()?`<button class="btn ghost" onclick="exam()">🎖️ Repetir el examen para subir tu nota</button>`:""}
+ ${allDone()?`<button class="btn ${took?"acc":"ghost"}" onclick="diploma()">🎓 Ver mi diploma</button>`:""}
  <button class="btn ghost" onclick="shr()">📤 Compartir mi puntaje</button>
  <p class="mut">💡 Repite misiones para ganar más estrellas y subir tu puntaje.</p>
  <button class="btn ghost" onclick="home()">🗺️ Volver al mapa</button></div>`;
@@ -590,7 +601,7 @@ K.breakwall=s=>{const n=24,left=shuffle([...Array(n).keys()]);let c=0;
  $("#st").innerHTML=`<div class="w100"><div class="crowd" id="cw">🧍 🧍 🧍</div><div class="wall">${'<b class="on"></b>'.repeat(n)}</div><div class="wall-lab"><span>🔨 Derribado: <b id="wp">0%</b></span><span>Berlín, 1989</span></div></div>`;
  $("#ix").innerHTML=`<button class="btn big red" id="bt">🔨 ¡Derribar!</button>${box("Esa noche miles de personas cruzaron la frontera. ¡Ayuda a derribar el muro!")}`;
  const B=$$(".wall b");
- $("#bt").onclick=()=>{for(let k=0;k<2&&left.length;k++){B[left.pop()].className="fall";c++}SFX.brick();$("#wp").textContent=Math.round(c/n*100)+"%";
+ $("#bt").onclick=()=>{for(let k=0;k<2&&left.length;k++){const b=B[left.pop()];b.className="fall";setTimeout(()=>b.classList.add("gone"),700);c++}SFX.brick();$("#wp").textContent=Math.round(c/n*100)+"%";
   if(c===12){$("#cw").textContent="🙌 🧍 🎉 🧍 🙌";$("#bx").innerHTML=`<p>🔨 Los berlineses subieron al muro con martillos y cinceles. ¡Las familias se reencontraban después de 28 años!</p>`}
   if(c>=n){$("#bt").disabled=true;$("#cw").textContent="🎉 🙌 🥳 🙌 🎉";$("#bx").innerHTML=`<p>${s.end}</p>`;gain(8);conf();un()}}};
 
@@ -620,14 +631,14 @@ K.swipe=s=>{let i=0,busy=false,x0=null,dx=0;
  const pick=side=>{if(busy||i>=s.i.length)return;const c=s.i[i];
   if(side===c[1]){busy=true;okFx();gain(4);$("#bx").innerHTML=`<p>✅ <b>${c[0]}</b> → ${side?"URSS":"EE.UU."}. ${c[2]}</p>`;cd.style.transform="";cd.className="cd out"+(side?"R":"L");i++;
    later(()=>{busy=false;if(i<s.i.length)show();else{cd.className="cd in static";cd.textContent="🎉 ¡Todas clasificadas!";$("#swc").textContent="";$$(".sw .btn").forEach(b=>b.disabled=true);un()}},380)}
-  else{miss();cd.style.transform="";shake(cd);$("#bx").innerHTML=`<p>💡 Pista: ${c[3]}.</p>`}};
+  else{miss();cd.style.transform="";shake(cd);$("#bx").innerHTML=`<p>💡 Pista: ${c[3]}${c[3].endsWith(".")?"":"."}</p>`}};
  $$(".sw .btn").forEach(b=>b.onclick=()=>pick(+b.dataset.s));
  cd.onpointerdown=e=>{if(busy||i>=s.i.length)return;x0=e.clientX;dx=0;cd.setPointerCapture(e.pointerId);cd.classList.add("drag")};
  cd.onpointermove=e=>{if(x0===null)return;dx=e.clientX-x0;cd.style.transform=`translateX(${dx}px) rotate(${dx/18}deg)`;cd.dataset.tilt=dx<-30?"l":dx>30?"r":""};
  cd.onpointerup=cd.onpointercancel=()=>{if(x0===null)return;x0=null;cd.classList.remove("drag");cd.dataset.tilt="";if(Math.abs(dx)>70)pick(dx<0?0:1);else cd.style.transform=""}};
 
 K.launch=s=>{let p=0,d=1.25,done=false;
- $("#st").innerHTML=`<div class="sky" id="sky"><div class="stars"></div><div class="rocket" id="rk">🚀</div><div class="pad"></div><div class="cdn" id="cdn"></div></div><div class="w100"><div class="nl"><div class="z"></div><div class="p" id="pn"></div></div><div class="mt-lab"><span>Poca</span><span>Potencia</span><span>Demasiada</span></div></div>`;
+ $("#st").innerHTML=`<div class="sky" id="sky"><div class="starfield"></div><div class="rocket" id="rk">🚀</div><div class="pad"></div><div class="cdn" id="cdn"></div></div><div class="w100"><div class="nl"><div class="z"></div><div class="p" id="pn"></div></div><div class="mt-lab"><span>Poca</span><span>Potencia</span><span>Demasiada</span></div></div>`;
  $("#ix").innerHTML=`<button class="btn big" id="bt">🔥 ¡Encender motores!</button>${box("Toca cuando la aguja blanca esté en la zona verde.")}`;
  every(()=>{if(done)return;p+=d;if(p>=100||p<=0){d=-d;p=Math.max(0,Math.min(100,p))}$("#pn").style.left=p+"%"},16);
  $("#bt").onclick=()=>{if(done)return;
@@ -686,7 +697,7 @@ function shr(){const t=`Completé «Guerra Fría: La Gran Misión» 🕶️ Punt
 addEventListener("pointerdown",e=>{PX=e.clientX;PY=e.clientY},true);
 document.addEventListener("click",e=>{const b=e.target.closest("button");if(b&&!b.disabled){SFX.tap();if(e.detail===0){const r=b.getBoundingClientRect();PX=r.left+r.width/2;PY=r.top}}},true);
 addEventListener("keydown",e=>{if(e.target.closest("input,textarea")||e.ctrlKey||e.metaKey||e.altKey)return;
- const n=parseInt(e.key,10);if(n>=1&&n<=9){const o=$$("#app .opt").filter(b=>!b.disabled);if(o[n-1]){o[n-1].focus();o[n-1].click()}return}
+ const n=parseInt(e.key,10);if(n>=1&&n<=9){const b=$$("#app .opt")[n-1];if(b&&!b.disabled){b.focus();b.click()}return}
  if(e.key==="ArrowLeft"||e.key==="ArrowRight"){const sw=$$(".sw .btn");if(sw.length===2){e.preventDefault();sw[e.key==="ArrowLeft"?0:1].click()}}});
 (()=>{const d=new Date().toDateString();if(S.ld!==d){const y=new Date(Date.now()-864e5).toDateString();S.dy=S.ld===y?(S.dy||0)+1:1;S.ld=d;save()}})();
 home();checkMedals();
